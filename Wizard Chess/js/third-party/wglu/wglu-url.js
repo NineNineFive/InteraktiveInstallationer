@@ -33,67 +33,67 @@ WGLUUrl.getInt("particleSize", 10); // Not in URL, returns default of 10
 */
 var WGLUUrl = (function() {
 
-  "use strict";
+    "use strict";
 
-  var urlArgs = null;
+    var urlArgs = null;
 
-  window.onhashchange = function() {
-    // Force re-parsing on next access
-    urlArgs = null;
-  };
+    window.onhashchange = function() {
+        // Force re-parsing on next access
+        urlArgs = null;
+    };
 
-  function ensureArgsCached() {
-    if (!urlArgs) {
-      urlArgs = {};
-      var query = window.location.search.substring(1) || window.location.hash.substring(1);
-      var vars = query.split("&");
-      for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
-        urlArgs[pair[0].toLowerCase()] = unescape(pair[1]);
-      }
+    function ensureArgsCached() {
+        if (!urlArgs) {
+            urlArgs = {};
+            var query = window.location.search.substring(1) || window.location.hash.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                urlArgs[pair[0].toLowerCase()] = unescape(pair[1]);
+            }
+        }
     }
-  }
 
-  function getString(name, defaultValue) {
-    ensureArgsCached();
-    var lcaseName = name.toLowerCase();
-    if (lcaseName in urlArgs) {
-      return urlArgs[lcaseName];
+    function getString(name, defaultValue) {
+        ensureArgsCached();
+        var lcaseName = name.toLowerCase();
+        if (lcaseName in urlArgs) {
+            return urlArgs[lcaseName];
+        }
+        return defaultValue;
     }
-    return defaultValue;
-  }
 
-  function getInt(name, defaultValue) {
-    ensureArgsCached();
-    var lcaseName = name.toLowerCase();
-    if (lcaseName in urlArgs) {
-      return parseInt(urlArgs[lcaseName], 10);
+    function getInt(name, defaultValue) {
+        ensureArgsCached();
+        var lcaseName = name.toLowerCase();
+        if (lcaseName in urlArgs) {
+            return parseInt(urlArgs[lcaseName], 10);
+        }
+        return defaultValue;
     }
-    return defaultValue;
-  }
 
-  function getFloat(name, defaultValue) {
-    ensureArgsCached();
-    var lcaseName = name.toLowerCase();
-    if (lcaseName in urlArgs) {
-      return parseFloat(urlArgs[lcaseName]);
+    function getFloat(name, defaultValue) {
+        ensureArgsCached();
+        var lcaseName = name.toLowerCase();
+        if (lcaseName in urlArgs) {
+            return parseFloat(urlArgs[lcaseName]);
+        }
+        return defaultValue;
     }
-    return defaultValue;
-  }
 
-  function getBool(name, defaultValue) {
-    ensureArgsCached();
-    var lcaseName = name.toLowerCase();
-    if (lcaseName in urlArgs) {
-      return parseInt(urlArgs[lcaseName], 10) != 0;
+    function getBool(name, defaultValue) {
+        ensureArgsCached();
+        var lcaseName = name.toLowerCase();
+        if (lcaseName in urlArgs) {
+            return parseInt(urlArgs[lcaseName], 10) != 0;
+        }
+        return defaultValue;
     }
-    return defaultValue;
-  }
 
-  return {
-    getString: getString,
-    getInt: getInt,
-    getFloat: getFloat,
-    getBool: getBool
-  };
+    return {
+        getString: getString,
+        getInt: getInt,
+        getFloat: getFloat,
+        getBool: getBool
+    };
 })();

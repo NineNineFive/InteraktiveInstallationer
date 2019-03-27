@@ -142,17 +142,19 @@ window.VRCubeIsland = (function () {
     // Appends a cube with the given centerpoint and size.
     function appendCube (x, y, z, size) {
       var halfSize = size * 0.5;
-      appendBox(x - halfSize, y - halfSize, z - halfSize,
-                x + halfSize, y + halfSize, z + halfSize);
+      appendBox(x - halfSize, y - halfSize, z - halfSize, x + halfSize, y + halfSize, z + halfSize);
     }
 
     // Main "island", covers where the user can safely stand. Top of the cube
     // (the ground the user stands on) should be at Y=0 to align with users
     // floor. X=0 and Z=0 should be at the center of the users play space.
-    appendBox(-width * 0.5, -width, -depth * 0.5, width * 0.5, 0, depth * 0.5);
+    //appendBox(-width * 0.5, -width, -depth * 0.5, width * 0.5, 0, depth * 0.5);
 
     // A sprinkling of other cubes to make things more visually interesting.
-    appendCube(1.1, 0.3, (-depth * 0.5) - 0.8, 0.5);
+
+
+    //appendCube(1.1, 0.3, (-depth * 0.5) - 0.8, 0.5);
+    /*
     appendCube(-0.5, 1.0, (-depth * 0.5) - 0.9, 0.75);
     appendCube(0.6, 1.5, (-depth * 0.5) - 0.6, 0.4);
     appendCube(-1.0, 0.5, (-depth * 0.5) - 0.5, 0.2);
@@ -170,7 +172,7 @@ window.VRCubeIsland = (function () {
     appendCube(1.1, 1.4, (depth * 0.5) + 0.8, 0.5);
     appendCube(-0.5, 1.0, (depth * 0.5) + 0.9, 0.75);
     appendCube(0.6, 0.4, (depth * 0.5) + 0.6, 0.4);
-
+*/
 
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vertBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cubeVerts), gl.STATIC_DRAW);
@@ -211,11 +213,11 @@ window.VRCubeIsland = (function () {
     if (stats) {
       // To ensure that the FPS counter is visible in VR mode we have to
       // render it as part of the scene.
-      mat4.fromTranslation(this.statsMat, [0, 1.5, -this.depth * 0.5]);
-      mat4.scale(this.statsMat, this.statsMat, [0.5, 0.5, 0.5]);
-      mat4.rotateX(this.statsMat, this.statsMat, -0.75);
-      mat4.multiply(this.statsMat, modelViewMat, this.statsMat);
-      stats.render(projectionMat, this.statsMat);
+      //mat4.fromTranslation(this.statsMat, [0, 1.5, -this.depth * 0.5]);
+      //mat4.scale(this.statsMat, this.statsMat, [0.5, 0.5, 0.5]);
+      //mat4.rotateX(this.statsMat, this.statsMat, -0.75);
+      //mat4.multiply(this.statsMat, modelViewMat, this.statsMat);
+      //stats.render(projectionMat, this.statsMat);
     }
   };
 
