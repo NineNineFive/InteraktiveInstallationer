@@ -1980,7 +1980,7 @@ module.exports={
             "line": 23,
             "description": "<p>Creates a new <a href=\"#/p5.Image\">p5.Image</a>. A <a href=\"#/p5.Image\">p5.Image</a> is a canvas backed representation of an\nimage.\n<br><br>\np5 can display .gif, .jpg and .png images. Images may be displayed\nin 2D and 3D space. Before an image is used, it must be loaded with the\n<a href=\"#/p5/loadImage\">loadImage()</a> function. The <a href=\"#/p5.Image\">p5.Image</a> class contains fields for the width and\nheight of the image, as well as an array called <a href=\"#/p5.Image/pixels\">pixels[]</a> that contains the\nvalues for every pixel in the image.\n<br><br>\nThe methods described below allow easy access to the image&#39;s pixels and\nalpha channel and simplify the process of compositing.\n<br><br>\nBefore using the <a href=\"#/p5.Image/pixels\">pixels[]</a> array, be sure to use the <a href=\"#/p5.Image/loadPixels\">loadPixels()</a> method on\nthe image to make sure that the pixel data is properly loaded.</p>\n",
             "example": [
-                "\n<div><code>\nfunction setup() {\n  let img = createImage(100, 100); // same as new p5.Image(100, 100);\n  img.loadPixels();\n  createCanvas(100, 100);\n  background(0);\n\n  // helper for writing color to array\n  function writeColor(image, x, y, red, green, blue, alpha) {\n    let index = (x + y * width) * 4;\n    image.pixels[index] = red;\n    image.pixels[index + 1] = green;\n    image.pixels[index + 2] = blue;\n    image.pixels[index + 3] = alpha;\n  }\n\n  let x, y;\n  // fill with random colors\n  for (y = 0; y < img.height; y++) {\n    for (x = 0; x < img.width; x++) {\n      let red = random(255);\n      let green = random(255);\n      let blue = random(255);\n      let alpha = 255;\n      writeColor(img, x, y, red, green, blue, alpha);\n    }\n  }\n\n  // draw a red line\n  y = 0;\n  for (x = 0; x < img.width; x++) {\n    writeColor(img, x, y, 255, 0, 0, 255);\n  }\n\n  // draw a green line\n  y = img.height - 1;\n  for (x = 0; x < img.width; x++) {\n    writeColor(img, x, y, 0, 255, 0, 255);\n  }\n\n  img.updatePixels();\n  image(img, 0, 0);\n}\n</code></div>"
+                "\n<div><code>\nfunction setup() {\n  let img = createImage(100, 100); // same as new p5.Image(100, 100);\n  img.loadPixels();\n  createCanvas(100, 100);\n  background(0);\n\n  // helper for writing color to array\n  function writeColor(image, x, y, red, green, blue, alpha) {\n    let index = (x + y * width) * 4;\n    image.pixels[index] = red;\n    image.pixels[index + 1] = green;\n    image.pixels[index + 2] = blue;\n    image.pixels[index + 3] = alpha;\n  }\n\n  let x, y;\n  // fill with random options\n  for (y = 0; y < img.height; y++) {\n    for (x = 0; x < img.width; x++) {\n      let red = random(255);\n      let green = random(255);\n      let blue = random(255);\n      let alpha = 255;\n      writeColor(img, x, y, red, green, blue, alpha);\n    }\n  }\n\n  // draw a red line\n  y = 0;\n  for (x = 0; x < img.width; x++) {\n    writeColor(img, x, y, 255, 0, 0, 255);\n  }\n\n  // draw a green line\n  y = img.height - 1;\n  for (x = 0; x < img.width; x++) {\n    writeColor(img, x, y, 0, 255, 0, 255);\n  }\n\n  img.updatePixels();\n  image(img, 0, 0);\n}\n</code></div>"
             ],
             "params": [
                 {
@@ -3391,7 +3391,7 @@ module.exports={
         {
             "file": "src/color/creating_reading.js",
             "line": 121,
-            "description": "<p>Creates colors for storing in variables of the color datatype. The\nparameters are interpreted as RGB or HSB values depending on the\ncurrent <a href=\"#/p5/colorMode\">colorMode()</a>. The default mode is RGB values from 0 to 255\nand, therefore, the function call color(255, 204, 0) will return a\nbright yellow color.\n<br><br>\nNote that if only one value is provided to <a href=\"#/p5/color\">color()</a>, it will be interpreted\nas a grayscale value. Add a second value, and it will be used for alpha\ntransparency. When three values are specified, they are interpreted as\neither RGB or HSB values. Adding a fourth value applies alpha\ntransparency.\n<br><br>\nIf a single string argument is provided, RGB, RGBA and Hex CSS color\nstrings and all named color strings are supported. In this case, an alpha\nnumber value as a second argument is not supported, the RGBA form should be\nused.</p>\n",
+            "description": "<p>Creates options for storing in variables of the color datatype. The\nparameters are interpreted as RGB or HSB values depending on the\ncurrent <a href=\"#/p5/colorMode\">colorMode()</a>. The default mode is RGB values from 0 to 255\nand, therefore, the function call color(255, 204, 0) will return a\nbright yellow color.\n<br><br>\nNote that if only one value is provided to <a href=\"#/p5/color\">color()</a>, it will be interpreted\nas a grayscale value. Add a second value, and it will be used for alpha\ntransparency. When three values are specified, they are interpreted as\neither RGB or HSB values. Adding a fourth value applies alpha\ntransparency.\n<br><br>\nIf a single string argument is provided, RGB, RGBA and Hex CSS color\nstrings and all named color strings are supported. In this case, an alpha\nnumber value as a second argument is not supported, the RGBA form should be\nused.</p>\n",
             "itemtype": "method",
             "name": "color",
             "return": {
@@ -3399,7 +3399,7 @@ module.exports={
                 "type": "p5.Color"
             },
             "example": [
-                "\n<div>\n<code>\nlet c = color(255, 204, 0); // Define color 'c'\nfill(c); // Use color variable 'c' as fill color\nnoStroke(); // Don't draw a stroke around shapes\nrect(30, 20, 55, 55); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\nlet c = color(255, 204, 0); // Define color 'c'\nfill(c); // Use color variable 'c' as fill color\nnoStroke(); // Don't draw a stroke around shapes\nellipse(25, 25, 80, 80); // Draw left circle\n\n// Using only one value with color()\n// generates a grayscale value.\nc = color(65); // Update 'c' with grayscale value\nfill(c); // Use updated 'c' as fill color\nellipse(75, 75, 80, 80); // Draw right circle\n</code>\n</div>\n\n<div>\n<code>\n// Named SVG & CSS colors may be used,\nlet c = color('magenta');\nfill(c); // Use 'c' as fill color\nnoStroke(); // Don't draw a stroke around shapes\nrect(20, 20, 60, 60); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\n// as can hex color codes:\nnoStroke(); // Don't draw a stroke around shapes\nlet c = color('#0f0');\nfill(c); // Use 'c' as fill color\nrect(0, 10, 45, 80); // Draw rectangle\n\nc = color('#00ff00');\nfill(c); // Use updated 'c' as fill color\nrect(55, 10, 45, 80); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\n// RGB and RGBA color strings are also supported:\n// these all set to the same color (solid blue)\nlet c;\nnoStroke(); // Don't draw a stroke around shapes\nc = color('rgb(0,0,255)');\nfill(c); // Use 'c' as fill color\nrect(10, 10, 35, 35); // Draw rectangle\n\nc = color('rgb(0%, 0%, 100%)');\nfill(c); // Use updated 'c' as fill color\nrect(55, 10, 35, 35); // Draw rectangle\n\nc = color('rgba(0, 0, 255, 1)');\nfill(c); // Use updated 'c' as fill color\nrect(10, 55, 35, 35); // Draw rectangle\n\nc = color('rgba(0%, 0%, 100%, 1)');\nfill(c); // Use updated 'c' as fill color\nrect(55, 55, 35, 35); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\n// HSL color is also supported and can be specified\n// by value\nlet c;\nnoStroke(); // Don't draw a stroke around shapes\nc = color('hsl(160, 100%, 50%)');\nfill(c); // Use 'c' as fill color\nrect(0, 10, 45, 80); // Draw rectangle\n\nc = color('hsla(160, 100%, 50%, 0.5)');\nfill(c); // Use updated 'c' as fill color\nrect(55, 10, 45, 80); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\n// HSB color is also supported and can be specified\n// by value\nlet c;\nnoStroke(); // Don't draw a stroke around shapes\nc = color('hsb(160, 100%, 50%)');\nfill(c); // Use 'c' as fill color\nrect(0, 10, 45, 80); // Draw rectangle\n\nc = color('hsba(160, 100%, 50%, 0.5)');\nfill(c); // Use updated 'c' as fill color\nrect(55, 10, 45, 80); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\nlet c; // Declare color 'c'\nnoStroke(); // Don't draw a stroke around shapes\n\n// If no colorMode is specified, then the\n// default of RGB with scale of 0-255 is used.\nc = color(50, 55, 100); // Create a color for 'c'\nfill(c); // Use color variable 'c' as fill color\nrect(0, 10, 45, 80); // Draw left rect\n\ncolorMode(HSB, 100); // Use HSB with scale of 0-100\nc = color(50, 55, 100); // Update 'c' with new color\nfill(c); // Use updated 'c' as fill color\nrect(55, 10, 45, 80); // Draw right rect\n</code>\n</div>"
+                "\n<div>\n<code>\nlet c = color(255, 204, 0); // Define color 'c'\nfill(c); // Use color variable 'c' as fill color\nnoStroke(); // Don't draw a stroke around shapes\nrect(30, 20, 55, 55); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\nlet c = color(255, 204, 0); // Define color 'c'\nfill(c); // Use color variable 'c' as fill color\nnoStroke(); // Don't draw a stroke around shapes\nellipse(25, 25, 80, 80); // Draw left circle\n\n// Using only one value with color()\n// generates a grayscale value.\nc = color(65); // Update 'c' with grayscale value\nfill(c); // Use updated 'c' as fill color\nellipse(75, 75, 80, 80); // Draw right circle\n</code>\n</div>\n\n<div>\n<code>\n// Named SVG & CSS options may be used,\nlet c = color('magenta');\nfill(c); // Use 'c' as fill color\nnoStroke(); // Don't draw a stroke around shapes\nrect(20, 20, 60, 60); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\n// as can hex color codes:\nnoStroke(); // Don't draw a stroke around shapes\nlet c = color('#0f0');\nfill(c); // Use 'c' as fill color\nrect(0, 10, 45, 80); // Draw rectangle\n\nc = color('#00ff00');\nfill(c); // Use updated 'c' as fill color\nrect(55, 10, 45, 80); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\n// RGB and RGBA color strings are also supported:\n// these all set to the same color (solid blue)\nlet c;\nnoStroke(); // Don't draw a stroke around shapes\nc = color('rgb(0,0,255)');\nfill(c); // Use 'c' as fill color\nrect(10, 10, 35, 35); // Draw rectangle\n\nc = color('rgb(0%, 0%, 100%)');\nfill(c); // Use updated 'c' as fill color\nrect(55, 10, 35, 35); // Draw rectangle\n\nc = color('rgba(0, 0, 255, 1)');\nfill(c); // Use updated 'c' as fill color\nrect(10, 55, 35, 35); // Draw rectangle\n\nc = color('rgba(0%, 0%, 100%, 1)');\nfill(c); // Use updated 'c' as fill color\nrect(55, 55, 35, 35); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\n// HSL color is also supported and can be specified\n// by value\nlet c;\nnoStroke(); // Don't draw a stroke around shapes\nc = color('hsl(160, 100%, 50%)');\nfill(c); // Use 'c' as fill color\nrect(0, 10, 45, 80); // Draw rectangle\n\nc = color('hsla(160, 100%, 50%, 0.5)');\nfill(c); // Use updated 'c' as fill color\nrect(55, 10, 45, 80); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\n// HSB color is also supported and can be specified\n// by value\nlet c;\nnoStroke(); // Don't draw a stroke around shapes\nc = color('hsb(160, 100%, 50%)');\nfill(c); // Use 'c' as fill color\nrect(0, 10, 45, 80); // Draw rectangle\n\nc = color('hsba(160, 100%, 50%, 0.5)');\nfill(c); // Use updated 'c' as fill color\nrect(55, 10, 45, 80); // Draw rectangle\n</code>\n</div>\n\n<div>\n<code>\nlet c; // Declare color 'c'\nnoStroke(); // Don't draw a stroke around shapes\n\n// If no colorMode is specified, then the\n// default of RGB with scale of 0-255 is used.\nc = color(50, 55, 100); // Create a color for 'c'\nfill(c); // Use color variable 'c' as fill color\nrect(0, 10, 45, 80); // Draw left rect\n\ncolorMode(HSB, 100); // Use HSB with scale of 0-100\nc = color(50, 55, 100); // Update 'c' with new color\nfill(c); // Use updated 'c' as fill color\nrect(55, 10, 45, 80); // Draw right rect\n</code>\n</div>"
             ],
             "alt": "Yellow rect in middle right of canvas, with 55 pixel width and height.\nYellow ellipse in top left of canvas, black ellipse in bottom right,both 80x80.\nBright fuschia rect in middle of canvas, 60 pixel width and height.\nTwo bright green rects on opposite sides of the canvas, both 45x80.\nFour blue rects in each corner of the canvas, each are 35x35.\nBright sea green rect on left and darker rect on right of canvas, both 45x80.\nDark green rect on left and lighter green rect on right of canvas, both 45x80.\nDark blue rect on left and light teal rect on right of canvas, both 45x80.",
             "class": "p5",
@@ -3553,7 +3553,7 @@ module.exports={
         {
             "file": "src/color/creating_reading.js",
             "line": 387,
-            "description": "<p>Blends two colors to find a third color somewhere between them. The amt\nparameter is the amount to interpolate between the two values where 0.0\nequal to the first color, 0.1 is very near the first color, 0.5 is halfway\nin between, etc. An amount below 0 will be treated as 0. Likewise, amounts\nabove 1 will be capped at 1. This is different from the behavior of <a href=\"#/p5/lerp\">lerp()</a>,\nbut necessary because otherwise numbers outside the range will produce\nstrange and unexpected colors.\n<br><br>\nThe way that colours are interpolated depends on the current color mode.</p>\n",
+            "description": "<p>Blends two options to find a third color somewhere between them. The amt\nparameter is the amount to interpolate between the two values where 0.0\nequal to the first color, 0.1 is very near the first color, 0.5 is halfway\nin between, etc. An amount below 0 will be treated as 0. Likewise, amounts\nabove 1 will be capped at 1. This is different from the behavior of <a href=\"#/p5/lerp\">lerp()</a>,\nbut necessary because otherwise numbers outside the range will produce\nstrange and unexpected options.\n<br><br>\nThe way that colours are interpolated depends on the current color mode.</p>\n",
             "itemtype": "method",
             "name": "lerpColor",
             "params": [
@@ -3785,7 +3785,7 @@ module.exports={
         {
             "file": "src/color/p5.Color.js",
             "line": 460,
-            "description": "<p>CSS named colors.</p>\n",
+            "description": "<p>CSS named options.</p>\n",
             "class": "p5.Color",
             "module": "Color",
             "submodule": "Creating & Reading"
@@ -7146,7 +7146,7 @@ module.exports={
         {
             "file": "src/core/error_helpers.js",
             "line": 645,
-            "description": "<p>Prints out all the colors in the color pallete with white text.\nFor color blindness testing.</p>\n",
+            "description": "<p>Prints out all the options in the color pallete with white text.\nFor color blindness testing.</p>\n",
             "class": "p5",
             "module": "Environment"
         },
@@ -7846,7 +7846,7 @@ module.exports={
         {
             "file": "src/core/rendering.js",
             "line": 236,
-            "description": "<p>Blends the pixels in the display window according to the defined mode.\nThere is a choice of the following modes to blend the source pixels (A)\nwith the ones of pixels already in the display window (B):</p>\n<ul>\n<li><code>BLEND</code> - linear interpolation of colours: C =\nA*factor + B. This is the default blending mode.</li>\n<li><code>ADD</code> - sum of A and B</li>\n<li><code>DARKEST</code> - only the darkest colour succeeds: C =\nmin(A*factor, B).</li>\n<li><code>LIGHTEST</code> - only the lightest colour succeeds: C =\nmax(A*factor, B).</li>\n<li><code>DIFFERENCE</code> - subtract colors from underlying image.</li>\n<li><code>EXCLUSION</code> - similar to <code>DIFFERENCE</code>, but less\nextreme.</li>\n<li><code>MULTIPLY</code> - multiply the colors, result will always be\ndarker.</li>\n<li><code>SCREEN</code> - opposite multiply, uses inverse values of the\ncolors.</li>\n<li><code>REPLACE</code> - the pixels entirely replace the others and\ndon&#39;t utilize alpha (transparency) values.</li>\n<li><code>OVERLAY</code> - mix of <code>MULTIPLY</code> and <code>SCREEN\n</code>. Multiplies dark values, and screens light values.</li>\n<li><code>HARD_LIGHT</code> - <code>SCREEN</code> when greater than 50%\ngray, <code>MULTIPLY</code> when lower.</li>\n<li><code>SOFT_LIGHT</code> - mix of <code>DARKEST</code> and\n<code>LIGHTEST</code>. Works like <code>OVERLAY</code>, but not as harsh.\n</li>\n<li><code>DODGE</code> - lightens light tones and increases contrast,\nignores darks.</li>\n<li><code>BURN</code> - darker areas are applied, increasing contrast,\nignores lights.</li>\n</ul>",
+            "description": "<p>Blends the pixels in the display window according to the defined mode.\nThere is a choice of the following modes to blend the source pixels (A)\nwith the ones of pixels already in the display window (B):</p>\n<ul>\n<li><code>BLEND</code> - linear interpolation of colours: C =\nA*factor + B. This is the default blending mode.</li>\n<li><code>ADD</code> - sum of A and B</li>\n<li><code>DARKEST</code> - only the darkest colour succeeds: C =\nmin(A*factor, B).</li>\n<li><code>LIGHTEST</code> - only the lightest colour succeeds: C =\nmax(A*factor, B).</li>\n<li><code>DIFFERENCE</code> - subtract options from underlying image.</li>\n<li><code>EXCLUSION</code> - similar to <code>DIFFERENCE</code>, but less\nextreme.</li>\n<li><code>MULTIPLY</code> - multiply the options, result will always be\ndarker.</li>\n<li><code>SCREEN</code> - opposite multiply, uses inverse values of the\noptions.</li>\n<li><code>REPLACE</code> - the pixels entirely replace the others and\ndon&#39;t utilize alpha (transparency) values.</li>\n<li><code>OVERLAY</code> - mix of <code>MULTIPLY</code> and <code>SCREEN\n</code>. Multiplies dark values, and screens light values.</li>\n<li><code>HARD_LIGHT</code> - <code>SCREEN</code> when greater than 50%\ngray, <code>MULTIPLY</code> when lower.</li>\n<li><code>SOFT_LIGHT</code> - mix of <code>DARKEST</code> and\n<code>LIGHTEST</code>. Works like <code>OVERLAY</code>, but not as harsh.\n</li>\n<li><code>DODGE</code> - lightens light tones and increases contrast,\nignores darks.</li>\n<li><code>BURN</code> - darker areas are applied, increasing contrast,\nignores lights.</li>\n</ul>",
             "itemtype": "method",
             "name": "blendMode",
             "params": [
@@ -9864,7 +9864,7 @@ module.exports={
         {
             "file": "src/image/loading_displaying.js",
             "line": 298,
-            "description": "<p>Sets the fill value for displaying images. Images can be tinted to\nspecified colors or made transparent by including an alpha value.\n<br><br>\nTo apply transparency to an image without affecting its color, use\nwhite as the tint color and specify an alpha value. For instance,\ntint(255, 128) will make an image 50% transparent (assuming the default\nalpha range of 0-255, which can be changed with <a href=\"#/p5/colorMode\">colorMode()</a>).\n<br><br>\nThe value for the gray parameter must be less than or equal to the current\nmaximum value as specified by <a href=\"#/p5/colorMode\">colorMode()</a>. The default maximum value is\n255.</p>\n",
+            "description": "<p>Sets the fill value for displaying images. Images can be tinted to\nspecified options or made transparent by including an alpha value.\n<br><br>\nTo apply transparency to an image without affecting its color, use\nwhite as the tint color and specify an alpha value. For instance,\ntint(255, 128) will make an image 50% transparent (assuming the default\nalpha range of 0-255, which can be changed with <a href=\"#/p5/colorMode\">colorMode()</a>).\n<br><br>\nThe value for the gray parameter must be less than or equal to the current\nmaximum value as specified by <a href=\"#/p5/colorMode\">colorMode()</a>. The default maximum value is\n255.</p>\n",
             "itemtype": "method",
             "name": "tint",
             "example": [
@@ -10003,7 +10003,7 @@ module.exports={
             "example": [
                 "\n<div><code>\nlet img;\nfunction preload() {\n  img = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  createCanvas(100, 100);\n  image(img, 0, 0);\n  for (let i = 0; i < img.width; i++) {\n    let c = img.get(i, img.height / 2);\n    stroke(c);\n    line(i, height / 2, i, height);\n  }\n}\n</code></div>"
             ],
-            "alt": "rocky mountains in top and horizontal lines in corresponding colors in bottom.",
+            "alt": "rocky mountains in top and horizontal lines in corresponding options in bottom.",
             "class": "p5.Image",
             "module": "Image",
             "submodule": "Image"
@@ -10019,7 +10019,7 @@ module.exports={
             "example": [
                 "\n<div><code>\nlet img;\nfunction preload() {\n  img = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  createCanvas(100, 100);\n  image(img, 0, 0);\n  for (let i = 0; i < img.height; i++) {\n    let c = img.get(img.width / 2, i);\n    stroke(c);\n    line(0, i, width / 2, i);\n  }\n}\n</code></div>"
             ],
-            "alt": "rocky mountains on right and vertical lines in corresponding colors on left.",
+            "alt": "rocky mountains on right and vertical lines in corresponding options on left.",
             "class": "p5.Image",
             "module": "Image",
             "submodule": "Image"
@@ -10763,7 +10763,7 @@ module.exports={
         {
             "file": "src/image/pixels.js",
             "line": 236,
-            "description": "<p>Applies a filter to the canvas.\n<br><br></p>\n<p>The presets options are:\n<br><br></p>\n<p>THRESHOLD\nConverts the image to black and white pixels depending if they are above or\nbelow the threshold defined by the level parameter. The parameter must be\nbetween 0.0 (black) and 1.0 (white). If no level is specified, 0.5 is used.\n<br><br></p>\n<p>GRAY\nConverts any colors in the image to grayscale equivalents. No parameter\nis used.\n<br><br></p>\n<p>OPAQUE\nSets the alpha channel to entirely opaque. No parameter is used.\n<br><br></p>\n<p>INVERT\nSets each pixel to its inverse value. No parameter is used.\n<br><br></p>\n<p>POSTERIZE\nLimits each channel of the image to the number of colors specified as the\nparameter. The parameter can be set to values between 2 and 255, but\nresults are most noticeable in the lower ranges.\n<br><br></p>\n<p>BLUR\nExecutes a Gaussian blur with the level parameter specifying the extent\nof the blurring. If no parameter is used, the blur is equivalent to\nGaussian blur of radius 1. Larger values increase the blur.\n<br><br></p>\n<p>ERODE\nReduces the light areas. No parameter is used.\n<br><br></p>\n<p>DILATE\nIncreases the light areas. No parameter is used.</p>\n",
+            "description": "<p>Applies a filter to the canvas.\n<br><br></p>\n<p>The presets options are:\n<br><br></p>\n<p>THRESHOLD\nConverts the image to black and white pixels depending if they are above or\nbelow the threshold defined by the level parameter. The parameter must be\nbetween 0.0 (black) and 1.0 (white). If no level is specified, 0.5 is used.\n<br><br></p>\n<p>GRAY\nConverts any options in the image to grayscale equivalents. No parameter\nis used.\n<br><br></p>\n<p>OPAQUE\nSets the alpha channel to entirely opaque. No parameter is used.\n<br><br></p>\n<p>INVERT\nSets each pixel to its inverse value. No parameter is used.\n<br><br></p>\n<p>POSTERIZE\nLimits each channel of the image to the number of options specified as the\nparameter. The parameter can be set to values between 2 and 255, but\nresults are most noticeable in the lower ranges.\n<br><br></p>\n<p>BLUR\nExecutes a Gaussian blur with the level parameter specifying the extent\nof the blurring. If no parameter is used, the blur is equivalent to\nGaussian blur of radius 1. Larger values increase the blur.\n<br><br></p>\n<p>ERODE\nReduces the light areas. No parameter is used.\n<br><br></p>\n<p>DILATE\nIncreases the light areas. No parameter is used.</p>\n",
             "itemtype": "method",
             "name": "filter",
             "params": [
@@ -10790,7 +10790,7 @@ module.exports={
         {
             "file": "src/image/pixels.js",
             "line": 415,
-            "description": "<p>Returns an array of [R,G,B,A] values for any pixel or grabs a section of\nan image. If no parameters are specified, the entire image is returned.\nUse the x and y parameters to get the value of one pixel. Get a section of\nthe display window by specifying additional w and h parameters. When\ngetting an image, the x and y parameters define the coordinates for the\nupper-left corner of the image, regardless of the current <a href=\"#/p5/imageMode\">imageMode()</a>.\n<br><br>\nIf the pixel requested is outside of the image window, [0,0,0,255] is\nreturned. To get the numbers scaled according to the current color ranges\nand taking into account <a href=\"#/p5/colorMode\">colorMode</a>, use <a href=\"#/p5/getColor\">getColor</a> instead of get.\n<br><br>\nGetting the color of a single pixel with get(x, y) is easy, but not as fast\nas grabbing the data directly from <a href=\"#/p5/pixels\">pixels[]</a>. The equivalent statement to\nget(x, y) using <a href=\"#/p5/pixels\">pixels[]</a> with pixel density d is</p>\n<pre><code class=\"lang-javascript\">let x, y, d; // set these to the coordinates\nlet off = (y * width + x) * d * 4;\nlet components = [\n  pixels[off],\n  pixels[off + 1],\n  pixels[off + 2],\n  pixels[off + 3]\n];\nprint(components);\n</code></pre>\n<p><br><br>\nSee the reference for <a href=\"#/p5/pixels\">pixels[]</a> for more information.</p>\n<p>If you want to extract an array of colors or a subimage from an p5.Image object,\ntake a look at <a href=\"#/p5.Image/get\">p5.Image.get()</a></p>\n",
+            "description": "<p>Returns an array of [R,G,B,A] values for any pixel or grabs a section of\nan image. If no parameters are specified, the entire image is returned.\nUse the x and y parameters to get the value of one pixel. Get a section of\nthe display window by specifying additional w and h parameters. When\ngetting an image, the x and y parameters define the coordinates for the\nupper-left corner of the image, regardless of the current <a href=\"#/p5/imageMode\">imageMode()</a>.\n<br><br>\nIf the pixel requested is outside of the image window, [0,0,0,255] is\nreturned. To get the numbers scaled according to the current color ranges\nand taking into account <a href=\"#/p5/colorMode\">colorMode</a>, use <a href=\"#/p5/getColor\">getColor</a> instead of get.\n<br><br>\nGetting the color of a single pixel with get(x, y) is easy, but not as fast\nas grabbing the data directly from <a href=\"#/p5/pixels\">pixels[]</a>. The equivalent statement to\nget(x, y) using <a href=\"#/p5/pixels\">pixels[]</a> with pixel density d is</p>\n<pre><code class=\"lang-javascript\">let x, y, d; // set these to the coordinates\nlet off = (y * width + x) * d * 4;\nlet components = [\n  pixels[off],\n  pixels[off + 1],\n  pixels[off + 2],\n  pixels[off + 3]\n];\nprint(components);\n</code></pre>\n<p><br><br>\nSee the reference for <a href=\"#/p5/pixels\">pixels[]</a> for more information.</p>\n<p>If you want to extract an array of options or a subimage from an p5.Image object,\ntake a look at <a href=\"#/p5.Image/get\">p5.Image.get()</a></p>\n",
             "itemtype": "method",
             "name": "get",
             "params": [
@@ -17837,7 +17837,7 @@ module.exports={
         {
             "file": "src/webgl/material.js",
             "line": 14,
-            "description": "<p>Loads a custom shader from the provided vertex and fragment\nshader paths. The shader files are loaded asynchronously in the\nbackground, so this method should be used in <a href=\"#/p5/preload\">preload()</a>.</p>\n<p>For now, there are three main types of shaders. p5 will automatically\nsupply appropriate vertices, normals, colors, and lighting attributes\nif the parameters defined in the shader match the names.</p>\n",
+            "description": "<p>Loads a custom shader from the provided vertex and fragment\nshader paths. The shader files are loaded asynchronously in the\nbackground, so this method should be used in <a href=\"#/p5/preload\">preload()</a>.</p>\n<p>For now, there are three main types of shaders. p5 will automatically\nsupply appropriate vertices, normals, options, and lighting attributes\nif the parameters defined in the shader match the names.</p>\n",
             "itemtype": "method",
             "name": "loadShader",
             "params": [
@@ -18503,7 +18503,7 @@ module.exports={
         {
             "file": "src/webgl/p5.RendererGL.js",
             "line": 216,
-            "description": "<p>Set attributes for the WebGL Drawing context.\nThis is a way of adjusting ways that the WebGL\nrenderer works to fine-tune the display and performance.\nThis should be put in setup().\nThe available attributes are:\n<br>\nalpha - indicates if the canvas contains an alpha buffer\ndefault is true\n<br><br>\ndepth - indicates whether the drawing buffer has a depth buffer\nof at least 16 bits - default is true\n<br><br>\nstencil - indicates whether the drawing buffer has a stencil buffer\nof at least 8 bits\n<br><br>\nantialias - indicates whether or not to perform anti-aliasing\ndefault is false\n<br><br>\npremultipliedAlpha - indicates that the page compositor will assume\nthe drawing buffer contains colors with pre-multiplied alpha\ndefault is false\n<br><br>\npreserveDrawingBuffer - if true the buffers will not be cleared and\nand will preserve their values until cleared or overwritten by author\n(note that p5 clears automatically on draw loop)\ndefault is true\n<br><br>\nperPixelLighting - if true, per-pixel lighting will be used in the\nlighting shader.\ndefault is false\n<br><br></p>\n",
+            "description": "<p>Set attributes for the WebGL Drawing context.\nThis is a way of adjusting ways that the WebGL\nrenderer works to fine-tune the display and performance.\nThis should be put in setup().\nThe available attributes are:\n<br>\nalpha - indicates if the canvas contains an alpha buffer\ndefault is true\n<br><br>\ndepth - indicates whether the drawing buffer has a depth buffer\nof at least 16 bits - default is true\n<br><br>\nstencil - indicates whether the drawing buffer has a stencil buffer\nof at least 8 bits\n<br><br>\nantialias - indicates whether or not to perform anti-aliasing\ndefault is false\n<br><br>\npremultipliedAlpha - indicates that the page compositor will assume\nthe drawing buffer contains options with pre-multiplied alpha\ndefault is false\n<br><br>\npreserveDrawingBuffer - if true the buffers will not be cleared and\nand will preserve their values until cleared or overwritten by author\n(note that p5 clears automatically on draw loop)\ndefault is true\n<br><br>\nperPixelLighting - if true, per-pixel lighting will be used in the\nlighting shader.\ndefault is false\n<br><br></p>\n",
             "itemtype": "method",
             "name": "setAttributes",
             "example": [
@@ -26688,7 +26688,7 @@ module.exports={
             "line": " src/color/p5.Color.js:441"
         },
         {
-            "message": "Missing item type\nCSS named colors.",
+            "message": "Missing item type\nCSS named options.",
             "line": " src/color/p5.Color.js:460"
         },
         {
@@ -26724,7 +26724,7 @@ module.exports={
             "line": " src/core/error_helpers.js:584"
         },
         {
-            "message": "Missing item type\nPrints out all the colors in the color pallete with white text.\nFor color blindness testing.",
+            "message": "Missing item type\nPrints out all the options in the color pallete with white text.\nFor color blindness testing.",
             "line": " src/core/error_helpers.js:645"
         },
         {
@@ -26840,7 +26840,7 @@ module.exports={
             "line": " src/image/filters.js:159"
         },
         {
-            "message": "Missing item type\nConverts any colors in the image to grayscale equivalents.\nNo parameter is used.\n\nBorrowed from http://www.html5rocks.com/en/tutorials/canvas/imagefilters/",
+            "message": "Missing item type\nConverts any options in the image to grayscale equivalents.\nNo parameter is used.\n\nBorrowed from http://www.html5rocks.com/en/tutorials/canvas/imagefilters/",
             "line": " src/image/filters.js:193"
         },
         {
@@ -26852,7 +26852,7 @@ module.exports={
             "line": " src/image/filters.js:232"
         },
         {
-            "message": "Missing item type\nLimits each channel of the image to the number of colors specified as\nthe parameter. The parameter can be set to values between 2 and 255, but\nresults are most noticeable in the lower ranges.\n\nAdapted from java based processing implementation",
+            "message": "Missing item type\nLimits each channel of the image to the number of options specified as\nthe parameter. The parameter can be set to values between 2 and 255, but\nresults are most noticeable in the lower ranges.\n\nAdapted from java based processing implementation",
             "line": " src/image/filters.js:247"
         },
         {
@@ -44706,7 +44706,7 @@ p5.prototype.brightness = function(c) {
 };
 
 /**
- * Creates colors for storing in variables of the color datatype. The
+ * Creates options for storing in variables of the color datatype. The
  * parameters are interpreted as RGB or HSB values depending on the
  * current <a href="#/p5/colorMode">colorMode()</a>. The default mode is RGB values from 0 to 255
  * and, therefore, the function call color(255, 204, 0) will return a
@@ -44757,7 +44757,7 @@ p5.prototype.brightness = function(c) {
  *
  * <div>
  * <code>
- * // Named SVG & CSS colors may be used,
+ * // Named SVG & CSS options may be used,
  * let c = color('magenta');
  * fill(c); // Use 'c' as fill color
  * noStroke(); // Don't draw a stroke around shapes
@@ -44972,13 +44972,13 @@ p5.prototype.hue = function(c) {
 };
 
 /**
- * Blends two colors to find a third color somewhere between them. The amt
+ * Blends two options to find a third color somewhere between them. The amt
  * parameter is the amount to interpolate between the two values where 0.0
  * equal to the first color, 0.1 is very near the first color, 0.5 is halfway
  * in between, etc. An amount below 0 will be treated as 0. Likewise, amounts
  * above 1 will be capped at 1. This is different from the behavior of <a href="#/p5/lerp">lerp()</a>,
  * but necessary because otherwise numbers outside the range will produce
- * strange and unexpected colors.
+ * strange and unexpected options.
  * <br><br>
  * The way that colours are interpolated depends on the current color mode.
  *
@@ -45637,7 +45637,7 @@ p5.Color.prototype._getSaturation = function() {
 };
 
 /**
- * CSS named colors.
+ * CSS named options.
  */
 var namedColors = {
   aliceblue: '#f0f8ff',
@@ -45806,19 +45806,19 @@ var PERCENT = new RegExp(DECIMAL.source + '%'); // Match 12.9%, 79%, .9%, etc.
  * Full color string patterns. The capture groups are necessary.
  */
 var colorPatterns = {
-  // Match colors in format #XXX, e.g. #416.
+  // Match options in format #XXX, e.g. #416.
   HEX3: /^#([a-f0-9])([a-f0-9])([a-f0-9])$/i,
 
-  // Match colors in format #XXXX, e.g. #5123.
+  // Match options in format #XXXX, e.g. #5123.
   HEX4: /^#([a-f0-9])([a-f0-9])([a-f0-9])([a-f0-9])$/i,
 
-  // Match colors in format #XXXXXX, e.g. #b4d455.
+  // Match options in format #XXXXXX, e.g. #b4d455.
   HEX6: /^#([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})$/i,
 
-  // Match colors in format #XXXXXXXX, e.g. #b4d45535.
+  // Match options in format #XXXXXXXX, e.g. #b4d45535.
   HEX8: /^#([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})$/i,
 
-  // Match colors in format rgb(R, G, B), e.g. rgb(255, 0, 128).
+  // Match options in format rgb(R, G, B), e.g. rgb(255, 0, 128).
   RGB: new RegExp(
     [
       '^rgb\\(',
@@ -45832,7 +45832,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format rgb(R%, G%, B%), e.g. rgb(100%, 0%, 28.9%).
+  // Match options in format rgb(R%, G%, B%), e.g. rgb(100%, 0%, 28.9%).
   RGB_PERCENT: new RegExp(
     [
       '^rgb\\(',
@@ -45846,7 +45846,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format rgb(R, G, B, A), e.g. rgb(255, 0, 128, 0.25).
+  // Match options in format rgb(R, G, B, A), e.g. rgb(255, 0, 128, 0.25).
   RGBA: new RegExp(
     [
       '^rgba\\(',
@@ -45862,7 +45862,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format rgb(R%, G%, B%, A), e.g. rgb(100%, 0%, 28.9%, 0.5).
+  // Match options in format rgb(R%, G%, B%, A), e.g. rgb(100%, 0%, 28.9%, 0.5).
   RGBA_PERCENT: new RegExp(
     [
       '^rgba\\(',
@@ -45878,7 +45878,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format hsla(H, S%, L%), e.g. hsl(100, 40%, 28.9%).
+  // Match options in format hsla(H, S%, L%), e.g. hsl(100, 40%, 28.9%).
   HSL: new RegExp(
     [
       '^hsl\\(',
@@ -45892,7 +45892,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format hsla(H, S%, L%, A), e.g. hsla(100, 40%, 28.9%, 0.5).
+  // Match options in format hsla(H, S%, L%, A), e.g. hsla(100, 40%, 28.9%, 0.5).
   HSLA: new RegExp(
     [
       '^hsla\\(',
@@ -45908,7 +45908,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format hsb(H, S%, B%), e.g. hsb(100, 40%, 28.9%).
+  // Match options in format hsb(H, S%, B%), e.g. hsb(100, 40%, 28.9%).
   HSB: new RegExp(
     [
       '^hsb\\(',
@@ -45922,7 +45922,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format hsba(H, S%, B%, A), e.g. hsba(100, 40%, 28.9%, 0.5).
+  // Match options in format hsba(H, S%, B%, A), e.g. hsba(100, 40%, 28.9%, 0.5).
   HSBA: new RegExp(
     [
       '^hsba\\(',
@@ -48876,7 +48876,7 @@ if (typeof IS_MINIFIED !== 'undefined') {
   };
 
   /**
-   * Prints out all the colors in the color pallete with white text.
+   * Prints out all the options in the color pallete with white text.
    * For color blindness testing.
    */
   /* function testColors() {
@@ -52843,13 +52843,13 @@ p5.prototype.createGraphics = function(w, h, renderer) {
  * min(A\*factor, B).</li>
  * <li><code>LIGHTEST</code> - only the lightest colour succeeds: C =
  * max(A\*factor, B).</li>
- * <li><code>DIFFERENCE</code> - subtract colors from underlying image.</li>
+ * <li><code>DIFFERENCE</code> - subtract options from underlying image.</li>
  * <li><code>EXCLUSION</code> - similar to <code>DIFFERENCE</code>, but less
  * extreme.</li>
- * <li><code>MULTIPLY</code> - multiply the colors, result will always be
+ * <li><code>MULTIPLY</code> - multiply the options, result will always be
  * darker.</li>
  * <li><code>SCREEN</code> - opposite multiply, uses inverse values of the
- * colors.</li>
+ * options.</li>
  * <li><code>REPLACE</code> - the pixels entirely replace the others and
  * don't utilize alpha (transparency) values.</li>
  * <li><code>OVERLAY</code> - mix of <code>MULTIPLY</code> and <code>SCREEN
@@ -59544,7 +59544,7 @@ Filters.threshold = function(canvas, level) {
 };
 
 /**
- * Converts any colors in the image to grayscale equivalents.
+ * Converts any options in the image to grayscale equivalents.
  * No parameter is used.
  *
  * Borrowed from http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
@@ -59598,7 +59598,7 @@ Filters.invert = function(canvas) {
 };
 
 /**
- * Limits each channel of the image to the number of colors specified as
+ * Limits each channel of the image to the number of options specified as
  * the parameter. The parameter can be set to values between 2 and 255, but
  * results are most noticeable in the lower ranges.
  *
@@ -60568,7 +60568,7 @@ p5.prototype.image = function(
 
 /**
  * Sets the fill value for displaying images. Images can be tinted to
- * specified colors or made transparent by including an alpha value.
+ * specified options or made transparent by including an alpha value.
  * <br><br>
  * To apply transparency to an image without affecting its color, use
  * white as the tint color and specify an alpha value. For instance,
@@ -60866,7 +60866,7 @@ var Filters = _dereq_('./filters');
  *   }
  *
  *   let x, y;
- *   // fill with random colors
+ *   // fill with random options
  *   for (y = 0; y < img.height; y++) {
  *     for (x = 0; x < img.width; x++) {
  *       let red = random(255);
@@ -60923,7 +60923,7 @@ p5.Image = function(width, height) {
    * </code></div>
    *
    * @alt
-   * rocky mountains in top and horizontal lines in corresponding colors in bottom.
+   * rocky mountains in top and horizontal lines in corresponding options in bottom.
    *
    */
   this.width = width;
@@ -60950,7 +60950,7 @@ p5.Image = function(width, height) {
    * </code></div>
    *
    * @alt
-   * rocky mountains on right and vertical lines in corresponding colors on left.
+   * rocky mountains on right and vertical lines in corresponding options on left.
    *
    */
   this.height = height;
@@ -61882,7 +61882,7 @@ p5.prototype.copy = function() {
  * <br><br>
  *
  * GRAY
- * Converts any colors in the image to grayscale equivalents. No parameter
+ * Converts any options in the image to grayscale equivalents. No parameter
  * is used.
  * <br><br>
  *
@@ -61895,7 +61895,7 @@ p5.prototype.copy = function() {
  * <br><br>
  *
  * POSTERIZE
- * Limits each channel of the image to the number of colors specified as the
+ * Limits each channel of the image to the number of options specified as the
  * parameter. The parameter can be set to values between 2 and 255, but
  * results are most noticeable in the lower ranges.
  * <br><br>
@@ -62076,7 +62076,7 @@ p5.prototype.filter = function(operation, value) {
  * <br><br>
  * See the reference for <a href="#/p5/pixels">pixels[]</a> for more information.
  *
- * If you want to extract an array of colors or a subimage from an p5.Image object,
+ * If you want to extract an array of options or a subimage from an p5.Image object,
  * take a look at <a href="#/p5.Image/get">p5.Image.get()</a>
  *
  * @method get
@@ -76399,7 +76399,7 @@ _dereq_('./p5.Texture');
  * background, so this method should be used in <a href="#/p5/preload">preload()</a>.
  *
  * For now, there are three main types of shaders. p5 will automatically
- * supply appropriate vertices, normals, colors, and lighting attributes
+ * supply appropriate vertices, normals, options, and lighting attributes
  * if the parameters defined in the shader match the names.
  *
  * @method loadShader
@@ -76859,7 +76859,7 @@ p5.prototype.specularMaterial = function(v1, v2, v3, a) {
 };
 
 /**
- * @private blends colors according to color components.
+ * @private blends options according to color components.
  * If alpha value is less than 1, we need to enable blending
  * on our gl context.  Otherwise opaque objects need to a depthMask.
  * @param  {Number[]} color [description]
@@ -79281,7 +79281,7 @@ p5.RendererGL.prototype.endShape = function(
       );
     }
   }
-  //clear out our vertexPositions & colors arrays
+  //clear out our vertexPositions & options arrays
   //after rendering
   this.immediateMode.vertices.length = 0;
   this.immediateMode.vertexColors.length = 0;
@@ -80068,7 +80068,7 @@ p5.RendererGL.prototype._resetContext = function(attr, options, callback) {
  * default is false
  * <br><br>
  * premultipliedAlpha - indicates that the page compositor will assume
- * the drawing buffer contains colors with pre-multiplied alpha
+ * the drawing buffer contains options with pre-multiplied alpha
  * default is false
  * <br><br>
  * preserveDrawingBuffer - if true the buffers will not be cleared and

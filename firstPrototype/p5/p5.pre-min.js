@@ -17173,7 +17173,7 @@ p5.prototype.brightness = function(c) {
 };
 
 /**
- * Creates colors for storing in variables of the color datatype. The
+ * Creates options for storing in variables of the color datatype. The
  * parameters are interpreted as RGB or HSB values depending on the
  * current <a href="#/p5/colorMode">colorMode()</a>. The default mode is RGB values from 0 to 255
  * and, therefore, the function call color(255, 204, 0) will return a
@@ -17224,7 +17224,7 @@ p5.prototype.brightness = function(c) {
  *
  * <div>
  * <code>
- * // Named SVG & CSS colors may be used,
+ * // Named SVG & CSS options may be used,
  * let c = color('magenta');
  * fill(c); // Use 'c' as fill color
  * noStroke(); // Don't draw a stroke around shapes
@@ -17439,13 +17439,13 @@ p5.prototype.hue = function(c) {
 };
 
 /**
- * Blends two colors to find a third color somewhere between them. The amt
+ * Blends two options to find a third color somewhere between them. The amt
  * parameter is the amount to interpolate between the two values where 0.0
  * equal to the first color, 0.1 is very near the first color, 0.5 is halfway
  * in between, etc. An amount below 0 will be treated as 0. Likewise, amounts
  * above 1 will be capped at 1. This is different from the behavior of <a href="#/p5/lerp">lerp()</a>,
  * but necessary because otherwise numbers outside the range will produce
- * strange and unexpected colors.
+ * strange and unexpected options.
  * <br><br>
  * The way that colours are interpolated depends on the current color mode.
  *
@@ -18104,7 +18104,7 @@ p5.Color.prototype._getSaturation = function() {
 };
 
 /**
- * CSS named colors.
+ * CSS named options.
  */
 var namedColors = {
   aliceblue: '#f0f8ff',
@@ -18273,19 +18273,19 @@ var PERCENT = new RegExp(DECIMAL.source + '%'); // Match 12.9%, 79%, .9%, etc.
  * Full color string patterns. The capture groups are necessary.
  */
 var colorPatterns = {
-  // Match colors in format #XXX, e.g. #416.
+  // Match options in format #XXX, e.g. #416.
   HEX3: /^#([a-f0-9])([a-f0-9])([a-f0-9])$/i,
 
-  // Match colors in format #XXXX, e.g. #5123.
+  // Match options in format #XXXX, e.g. #5123.
   HEX4: /^#([a-f0-9])([a-f0-9])([a-f0-9])([a-f0-9])$/i,
 
-  // Match colors in format #XXXXXX, e.g. #b4d455.
+  // Match options in format #XXXXXX, e.g. #b4d455.
   HEX6: /^#([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})$/i,
 
-  // Match colors in format #XXXXXXXX, e.g. #b4d45535.
+  // Match options in format #XXXXXXXX, e.g. #b4d45535.
   HEX8: /^#([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})$/i,
 
-  // Match colors in format rgb(R, G, B), e.g. rgb(255, 0, 128).
+  // Match options in format rgb(R, G, B), e.g. rgb(255, 0, 128).
   RGB: new RegExp(
     [
       '^rgb\\(',
@@ -18299,7 +18299,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format rgb(R%, G%, B%), e.g. rgb(100%, 0%, 28.9%).
+  // Match options in format rgb(R%, G%, B%), e.g. rgb(100%, 0%, 28.9%).
   RGB_PERCENT: new RegExp(
     [
       '^rgb\\(',
@@ -18313,7 +18313,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format rgb(R, G, B, A), e.g. rgb(255, 0, 128, 0.25).
+  // Match options in format rgb(R, G, B, A), e.g. rgb(255, 0, 128, 0.25).
   RGBA: new RegExp(
     [
       '^rgba\\(',
@@ -18329,7 +18329,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format rgb(R%, G%, B%, A), e.g. rgb(100%, 0%, 28.9%, 0.5).
+  // Match options in format rgb(R%, G%, B%, A), e.g. rgb(100%, 0%, 28.9%, 0.5).
   RGBA_PERCENT: new RegExp(
     [
       '^rgba\\(',
@@ -18345,7 +18345,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format hsla(H, S%, L%), e.g. hsl(100, 40%, 28.9%).
+  // Match options in format hsla(H, S%, L%), e.g. hsl(100, 40%, 28.9%).
   HSL: new RegExp(
     [
       '^hsl\\(',
@@ -18359,7 +18359,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format hsla(H, S%, L%, A), e.g. hsla(100, 40%, 28.9%, 0.5).
+  // Match options in format hsla(H, S%, L%, A), e.g. hsla(100, 40%, 28.9%, 0.5).
   HSLA: new RegExp(
     [
       '^hsla\\(',
@@ -18375,7 +18375,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format hsb(H, S%, B%), e.g. hsb(100, 40%, 28.9%).
+  // Match options in format hsb(H, S%, B%), e.g. hsb(100, 40%, 28.9%).
   HSB: new RegExp(
     [
       '^hsb\\(',
@@ -18389,7 +18389,7 @@ var colorPatterns = {
     'i'
   ),
 
-  // Match colors in format hsba(H, S%, B%, A), e.g. hsba(100, 40%, 28.9%, 0.5).
+  // Match options in format hsba(H, S%, B%, A), e.g. hsba(100, 40%, 28.9%, 0.5).
   HSBA: new RegExp(
     [
       '^hsba\\(',
@@ -21343,7 +21343,7 @@ if (typeof IS_MINIFIED !== 'undefined') {
   };
 
   /**
-   * Prints out all the colors in the color pallete with white text.
+   * Prints out all the options in the color pallete with white text.
    * For color blindness testing.
    */
   /* function testColors() {
@@ -25310,13 +25310,13 @@ p5.prototype.createGraphics = function(w, h, renderer) {
  * min(A\*factor, B).</li>
  * <li><code>LIGHTEST</code> - only the lightest colour succeeds: C =
  * max(A\*factor, B).</li>
- * <li><code>DIFFERENCE</code> - subtract colors from underlying image.</li>
+ * <li><code>DIFFERENCE</code> - subtract options from underlying image.</li>
  * <li><code>EXCLUSION</code> - similar to <code>DIFFERENCE</code>, but less
  * extreme.</li>
- * <li><code>MULTIPLY</code> - multiply the colors, result will always be
+ * <li><code>MULTIPLY</code> - multiply the options, result will always be
  * darker.</li>
  * <li><code>SCREEN</code> - opposite multiply, uses inverse values of the
- * colors.</li>
+ * options.</li>
  * <li><code>REPLACE</code> - the pixels entirely replace the others and
  * don't utilize alpha (transparency) values.</li>
  * <li><code>OVERLAY</code> - mix of <code>MULTIPLY</code> and <code>SCREEN
@@ -32011,7 +32011,7 @@ Filters.threshold = function(canvas, level) {
 };
 
 /**
- * Converts any colors in the image to grayscale equivalents.
+ * Converts any options in the image to grayscale equivalents.
  * No parameter is used.
  *
  * Borrowed from http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
@@ -32065,7 +32065,7 @@ Filters.invert = function(canvas) {
 };
 
 /**
- * Limits each channel of the image to the number of colors specified as
+ * Limits each channel of the image to the number of options specified as
  * the parameter. The parameter can be set to values between 2 and 255, but
  * results are most noticeable in the lower ranges.
  *
@@ -33035,7 +33035,7 @@ p5.prototype.image = function(
 
 /**
  * Sets the fill value for displaying images. Images can be tinted to
- * specified colors or made transparent by including an alpha value.
+ * specified options or made transparent by including an alpha value.
  * <br><br>
  * To apply transparency to an image without affecting its color, use
  * white as the tint color and specify an alpha value. For instance,
@@ -33333,7 +33333,7 @@ var Filters = _dereq_('./filters');
  *   }
  *
  *   let x, y;
- *   // fill with random colors
+ *   // fill with random options
  *   for (y = 0; y < img.height; y++) {
  *     for (x = 0; x < img.width; x++) {
  *       let red = random(255);
@@ -33390,7 +33390,7 @@ p5.Image = function(width, height) {
    * </code></div>
    *
    * @alt
-   * rocky mountains in top and horizontal lines in corresponding colors in bottom.
+   * rocky mountains in top and horizontal lines in corresponding options in bottom.
    *
    */
   this.width = width;
@@ -33417,7 +33417,7 @@ p5.Image = function(width, height) {
    * </code></div>
    *
    * @alt
-   * rocky mountains on right and vertical lines in corresponding colors on left.
+   * rocky mountains on right and vertical lines in corresponding options on left.
    *
    */
   this.height = height;
@@ -34349,7 +34349,7 @@ p5.prototype.copy = function() {
  * <br><br>
  *
  * GRAY
- * Converts any colors in the image to grayscale equivalents. No parameter
+ * Converts any options in the image to grayscale equivalents. No parameter
  * is used.
  * <br><br>
  *
@@ -34362,7 +34362,7 @@ p5.prototype.copy = function() {
  * <br><br>
  *
  * POSTERIZE
- * Limits each channel of the image to the number of colors specified as the
+ * Limits each channel of the image to the number of options specified as the
  * parameter. The parameter can be set to values between 2 and 255, but
  * results are most noticeable in the lower ranges.
  * <br><br>
@@ -34543,7 +34543,7 @@ p5.prototype.filter = function(operation, value) {
  * <br><br>
  * See the reference for <a href="#/p5/pixels">pixels[]</a> for more information.
  *
- * If you want to extract an array of colors or a subimage from an p5.Image object,
+ * If you want to extract an array of options or a subimage from an p5.Image object,
  * take a look at <a href="#/p5.Image/get">p5.Image.get()</a>
  *
  * @method get
@@ -48866,7 +48866,7 @@ _dereq_('./p5.Texture');
  * background, so this method should be used in <a href="#/p5/preload">preload()</a>.
  *
  * For now, there are three main types of shaders. p5 will automatically
- * supply appropriate vertices, normals, colors, and lighting attributes
+ * supply appropriate vertices, normals, options, and lighting attributes
  * if the parameters defined in the shader match the names.
  *
  * @method loadShader
@@ -49326,7 +49326,7 @@ p5.prototype.specularMaterial = function(v1, v2, v3, a) {
 };
 
 /**
- * @private blends colors according to color components.
+ * @private blends options according to color components.
  * If alpha value is less than 1, we need to enable blending
  * on our gl context.  Otherwise opaque objects need to a depthMask.
  * @param  {Number[]} color [description]
@@ -51748,7 +51748,7 @@ p5.RendererGL.prototype.endShape = function(
       );
     }
   }
-  //clear out our vertexPositions & colors arrays
+  //clear out our vertexPositions & options arrays
   //after rendering
   this.immediateMode.vertices.length = 0;
   this.immediateMode.vertexColors.length = 0;
@@ -52535,7 +52535,7 @@ p5.RendererGL.prototype._resetContext = function(attr, options, callback) {
  * default is false
  * <br><br>
  * premultipliedAlpha - indicates that the page compositor will assume
- * the drawing buffer contains colors with pre-multiplied alpha
+ * the drawing buffer contains options with pre-multiplied alpha
  * default is false
  * <br><br>
  * preserveDrawingBuffer - if true the buffers will not be cleared and
