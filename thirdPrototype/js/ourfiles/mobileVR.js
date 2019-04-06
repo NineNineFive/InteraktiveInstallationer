@@ -35,7 +35,8 @@ var material;
 var loader;
 
 document.getElementById('MobileVR').onclick = function(){
-    document.getElementById('buttons').style.display = "none";
+    document.getElementById('defaultButtons').style.display = "none";
+    document.getElementById('mobileButtons').style.display = "block";
 
     document.addEventListener('touchmove', function(e) {
         e.preventDefault();
@@ -53,9 +54,14 @@ document.getElementById('MobileVR').onclick = function(){
 
     // Create a three.js scene.
     scene = new THREE.Scene();
-
+    scene.background = new THREE.Color(0x00ffa1);
     // Create a three.js camera.
     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 10000);
+
+
+
+    // Chess obj
+    let obj = new OBJLoading('King');
 
     // Create a reticle
     reticle = new THREE.Mesh(
@@ -65,6 +71,11 @@ document.getElementById('MobileVR').onclick = function(){
     reticle.position.z = -0.5;
     camera.add(reticle);
     scene.add(camera);
+
+    var light = new THREE.DirectionalLight( 0xffffff );
+    light.position.set( 1, 1, 1 ).normalize();
+    scene.add( light );
+
 
     // Apply VR stereo rendering to renderer.
     effect = new THREE.VREffect(renderer);
@@ -84,7 +95,7 @@ document.getElementById('MobileVR').onclick = function(){
     cube.position.z = -1;
 
     // Add cube mesh to your three.js scene
-    scene.add(cube);
+    //scene.add(cube);
 
     // Load the skybox texture and cube
     loader = new THREE.TextureLoader();
@@ -111,7 +122,7 @@ document.getElementById('MobileVR').onclick = function(){
             controls.target.set(0, 0, -1);
 
             // Disable the "Enter VR" button
-            var enterVRButton = document.querySelector('#MobileVR');
+            var enterVRButton = document.querySelector('#vr');
             enterVRButton.disabled = true;
 
             // Kick off the render loop.
@@ -120,19 +131,20 @@ document.getElementById('MobileVR').onclick = function(){
     });
 
     // Resize the WebGL canvas when we resize and also when we change modes.
-    window.addEventListener('resize', mobileOnResize);
+    window.addEventListener('resize', onResize);
     window.addEventListener('vrdisplaypresentchange', mobileOnVRDisplayPresentChange);
     window.addEventListener('vrdisplayconnect', mobileOnVRDisplayConnect);
 
-    document.querySelector('button#MobileVR').addEventListener('click', function() {
+    document.querySelector('button#fullscreen').addEventListener('click', function() {
+        enterFullscreen(renderer.domElement);
+    });
+    document.querySelector('button#vr').addEventListener('click', function() {
         vrDisplay.requestPresent([{source: renderer.domElement}]);
     });
 
 
 
-    // Chess obj
-    let obj = new OBJLoading('chess-pieces');
-    //scene.add(obj);
+
 
 }
 // Request animation frame loop function
@@ -144,6 +156,7 @@ function onTextureLoaded(texture) {
     texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(boxWidth, boxWidth);
     var geometry = new THREE.BoxGeometry(boxWidth, boxWidth, boxWidth);
+
     var material = new THREE.MeshBasicMaterial({
         map: texture,
         color: 0x01BE00,
@@ -176,7 +189,7 @@ function mobileAnimate(timestamp) {
     }
 }
 
-function mobileOnResize() {
+function onResize() {
     // The delay ensures the browser has a chance to layout
     // the page and update the clientWidth/clientHeight.
     // This problem particularly crops up under iOS.
@@ -194,7 +207,7 @@ function mobileOnResize() {
 function mobileOnVRDisplayPresentChange() {
     console.log('onVRDisplayPresentChange');
     onResize();
-    buttons.hidden = vrDisplay.isPresenting;
+    document.getElementById('mobileButtons').hidden = vrDisplay.isPresenting;
 }
 
 function mobileOnVRDisplayConnect(e) {
@@ -203,7 +216,7 @@ function mobileOnVRDisplayConnect(e) {
 
 
 
-function mobileEnterFullscreen (el) {
+function enterFullscreen (el) {
     if (el.requestFullscreen) {
         el.requestFullscreen();
     } else if (el.mozRequestFullScreen) {

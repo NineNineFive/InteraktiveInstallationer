@@ -26,6 +26,18 @@ var objref;
                 objref = event.detail.loaderRootNode;
                 scene.add(objref);
 
+                objref.position.x = 0;
+                objref.position.y = 0;
+                objref.position.z = -5;
+                //objref.rotation.z = 80;
+                objref.scale.x = 0.5;
+                objref.scale.y = 0.5;
+                objref.scale.z = 0.5;
+
+
+                //objref.rotateX(300);
+                //objref.scale = new THREE.Vector3(0.1,0.1,0.1);
+
             };
 
             var onLoadMtl = function ( materials ) {
@@ -37,7 +49,7 @@ var objref;
         }
     };
 
-    var canvas = document.getElementById( 'webgl-canvas' );
+    //var canvas = document.getElementById( 'webgl-canvas' );
 
 
 

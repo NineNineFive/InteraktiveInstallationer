@@ -53,9 +53,13 @@ check READMEandLICENSE.txt for this info.
 
 <script src="js/third-party/VR/BoxLineGeometry.js"></script>
 
-<div id="buttons">
+<div id="defaultButtons">
     <button id="ComputerVR" style="z-index: 500; font-size: 20px; padding: 10px; position: fixed; top: 50px; left: 50px;">Computer VR</button>
     <button id="MobileVR" style="z-index: 500; font-size: 20px; padding: 10px; position: fixed; top: 120px; left: 50px;">Mobile VR</button>
+</div>
+<div id="mobileButtons">
+    <button id="fullscreen">Fullscreen</button>
+    <button id="vr">VR (WebVR/Mobile only)</button>
 </div>
 
 <script src="js/ourfiles/objloader.js"></script>
@@ -65,15 +69,15 @@ check READMEandLICENSE.txt for this info.
 <!--<script src="third_party/three.js/three.js"></script>-->
 
 <!-- VRControls.js applies the WebVR transformations to a three.js camera object. -->
-<script src="webvr-polyfill-master/examples/third_party/three.js/VRControls.js"></script>
+<script src=js/third-party/VR/VRControls.js"></script>
 
 <!-- OrbitControls.js for controlling camera on desktop.  -->
-<script src="webvr-polyfill-master/examples/third_party/three.js/OrbitControls.js"></script>
+<script src="js/third-party/VR/OrbitControls.js"></script>
 
 <!-- VREffect.js handles stereo camera setup and rendering.  -->
-<script src="webvr-polyfill-master/examples/third_party/three.js/VREffect.js"></script>
+<script src="js/third-party/VR/VREffect.js"></script>
 
-<script src="webvr-polyfill-master/build/webvr-polyfill.js"></script>
+<script src="js/third-party/VR/webvr-polyfill.js"></script>
 
 <script src="js/ourfiles/mobileVR.js"></script>
 

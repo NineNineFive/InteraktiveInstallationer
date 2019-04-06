@@ -10,20 +10,14 @@ var isMouseDown = false;
 var INTERSECTED;
 var crosshair;
 document.getElementById('ComputerVR').onclick = function() {
-    document.getElementById('buttons').style.display = "none";
+    document.getElementById('defaultButtons').style.display = "none";
     init();
     animate();
     let obj = new OBJLoading('King');
 
-    objref.position.x = 0;
-    objref.position.y = 0;
-    objref.position.z = -10;
-    //objref.rotation.z = 80;
-    objref.scale.x = 0.5;
-    objref.scale.y = 0.5;
-    objref.scale.z = 0.5;
-    //objref.rotateX(300);
-    //objref.scale = new THREE.Vector3(0.1,0.1,0.1);
+
+
+
 
 }
 
