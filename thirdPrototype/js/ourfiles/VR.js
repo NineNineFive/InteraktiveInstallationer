@@ -1,14 +1,9 @@
-var lastRender = 0;
-var cube;
-var controls;
-var effect;
-var vrDisplay;
 
 class VR{
     constructor(){
         this.renderer = this.scene = this.camera = this.canvas = this.loader = this.material = this.reticle = this.polyfill =
         this.boxWidth = this.geometry = this.container = this.raycaster = this.light = this.room = this.INTERSECTED =
-        this.crosshair = this.obj = null;
+        this.crosshair = this.obj = this.lastRender = this.cube = this.controls = this.effect = null;
 
 
 
@@ -38,6 +33,8 @@ class VR{
         this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 10000);
 
 
+
+
     }
 
     mobileVR(){
@@ -65,8 +62,8 @@ class VR{
 
 
         // Apply VR stereo rendering to renderer.
-        effect = new THREE.VREffect(this.renderer);
-        effect.setSize(this.canvas.clientWidth, this.canvas.clientHeight, false);
+        this.effect = new THREE.VREffect(this.renderer);
+        this.effect.setSize(this.canvas.clientWidth, this.canvas.clientHeight, false);
 
         // Add a repeating grid as a skybox.
         this.boxWidth = 5;
@@ -74,13 +71,13 @@ class VR{
         // Create 3D objects.
         this.geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
         this.material = new THREE.MeshNormalMaterial();
-        cube = new THREE.Mesh(this.geometry, this.material);
+        this.cube = new THREE.Mesh(this.geometry, this.material);
 
         // Position cube
-        cube.position.z = -1;
+        this.cube.position.z = -1;
 
         // Add cube mesh to your three.js scene
-        this.scene.add(cube);
+        this.scene.add(this.cube);
 
         // Load the skybox texture and cube
         this.loader = new THREE.TextureLoader();
@@ -88,21 +85,19 @@ class VR{
 
         // The polyfill provides this in the event this browser
         // does not support WebVR 1.1
+        var instance = this;
         navigator.getVRDisplays().then(function (vrDisplays) {
             if(vrDisplays.length){
-                console.log("welllll");
                 // If we have a native display, or we have a CardboardVRDisplay
                 // from the polyfill, use it
-
-                console.log("test1");
-                vrDisplay = vrDisplays[0];
+                instance.vrDisplay = vrDisplays[0];
 
                 // Apply VR headset positional data to camera.
-                controls = new THREE.VRControls(this.camera);
+                instance.controls = new THREE.VRControls(instance.camera);
 
 
                 // Kick off the render loop.
-                vrDisplay.requestAnimationFrame(mobileAnimate);
+                instance.vrDisplay.requestAnimationFrame(mobileAnimate);
             }
             // Otherwise, we're on a desktop environment with no native
             // displays, so provide controls for a monoscopic desktop view
@@ -110,9 +105,8 @@ class VR{
 
             //}
         });
-        console.log("test2");
-        controls = new THREE.OrbitControls(this.camera);
-        controls.target.set(0, 0, -1);
+        this.controls = new THREE.OrbitControls(this.camera);
+        this.controls.target.set(0, 0, -1);
 
         // Disable the "Enter VR" button
         var enterVRButton = document.querySelector('#vr');
@@ -122,20 +116,18 @@ class VR{
         requestAnimationFrame(mobileAnimate);
 
 
-        // Resize the WebGL canvas when we resize and also when we change modes.
-        window.addEventListener('resize', this.onResize);
-        //window.addEventListener('vrdisplaypresentchange', mobileOnVRDisplayPresentChange);
-        //window.addEventListener('vrdisplayconnect', mobileOnVRDisplayConnect);
 
         document.querySelector('button#fullscreen').addEventListener('click', function() {
-            this.enterFullscreen(this.renderer.domElement);
+            instance.enterFullscreen(this.renderer.domElement);
         });
         document.querySelector('button#vr').addEventListener('click', function() {
-            vrDisplay.requestPresent([{source: this.renderer.domElement}]);
+            instance.vrDisplay.requestPresent([{source: this.renderer.domElement}]);
         });
 
 
-
+        // Resize the WebGL canvas when we resize and also when we change modes.
+        window.addEventListener('resize', () => { game.onResize(); } );
+        window.addEventListener('vrdisplaypresentchange', () => { game.mobileOnVRDisplayPresentChange(); } );
 
     }
 
@@ -156,29 +148,20 @@ class VR{
         this.scene.add(this.skybox);
     }
 
+    // The delay ensures the browser has a chance to layout
+    // the page and update the clientWidth/clientHeight.
+    // This problem particularly crops up under iOS.
+
+
     onResize() {
-        // The delay ensures the browser has a chance to layout
-        // the page and update the clientWidth/clientHeight.
-        // This problem particularly crops up under iOS.
-        if (!this.onResize.resizeDelay) {
-            this.onResize.resizeDelay = setTimeout(function () {
-                this.onResize.resizeDelay = null;
-                console.log('Resizing to %s x %s.', this.canvas.clientWidth, this.canvas.clientHeight);
-                effect.setSize(this.canvas.clientWidth, this.canvas.clientHeight, false);
-                this.camera.aspect = this.canvas.clientWidth / this.canvas.clientHeight;
-                this.camera.updateProjectionMatrix();
-            }, 250);
-        }
+        this.effect.setSize(this.canvas.clientWidth, this.canvas.clientHeight, false);
+        this.camera.aspect = this.canvas.clientWidth / this.canvas.clientHeight;
+        this.camera.updateProjectionMatrix();
     }
 
     mobileOnVRDisplayPresentChange() {
-        console.log('onVRDisplayPresentChange');
         this.onResize();
-        document.getElementById('mobileButtons').hidden = vrDisplay.isPresenting;
-    }
-
-    mobileOnVRDisplayConnect(e) {
-        console.log('onVRDisplayConnect', (e.display || (e.detail && e.detail.display)));
+        document.getElementById('mobileButtons').hidden = this.vrDisplay.isPresenting;
     }
 
 
@@ -199,29 +182,33 @@ class VR{
 
 
 
-var game = new VR();
 
 function mobileAnimate(timestamp){
-    var delta = Math.min(timestamp - lastRender, 500);
-    lastRender = timestamp;
+    var delta = Math.min(timestamp - game.lastRender, 500);
+    game.lastRender = timestamp;
 
     // Apply rotation to cube mesh
-    cube.rotation.y += delta * 0.0002;
+    game.cube.rotation.y += delta * 0.0002;
 
     // Update VR headset position and apply to camera.
-    controls.update();
+    game.controls.update();
 
     // Render the scene.
-    effect.render(game.scene, game.camera);
+    game.effect.render(game.scene, game.camera);
 
     // Keep looping; if using a VRDisplay, call its requestAnimationFrame,
     // otherwise call window.requestAnimationFrame.
-    if (vrDisplay) {
-        vrDisplay.requestAnimationFrame(mobileAnimate);
+    if (game.vrDisplay) {
+        game.vrDisplay.requestAnimationFrame(mobileAnimate);
     } else {
         requestAnimationFrame(mobileAnimate);
     }
 }
+
+
+
+var game = new VR();
+
 
 /*
 var clock = new THREE.Clock();
@@ -269,12 +256,14 @@ function detectmob() {
 */
 
 
-document.getElementById('MobileVR').onclick = function(){
+
+document.getElementById('MobileVR').onclick = () => {
     document.getElementById('defaultButtons').style.display = "none";
     document.getElementById('mobileButtons').style.display = "block";
 
     game.webgl();
     game.mobileVR();
+
 
 
 

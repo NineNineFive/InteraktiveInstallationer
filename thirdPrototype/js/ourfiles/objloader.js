@@ -16,7 +16,6 @@ class OBJLoading {
 
 
 var objref;
-console.log("testtt");
     class OBJLoading {
         constructor(modelName) {
             var modelName = modelName;
