@@ -61,7 +61,7 @@ class SpeechReg {
 
 }
 
-var test = new SpeechReg();
+var speech = new SpeechReg();
 
 
 

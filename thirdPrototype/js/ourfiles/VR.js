@@ -6,6 +6,29 @@ class VR{
         this.crosshair = this.obj = this.lastRender = this.cube = this.controls = this.effect = null;
 
 
+        //var clock = new THREE.Clock();
+        //var cube;
+        //var vrDisplay, controls;
+        //var effect;
+        //var canvas;
+        //var scene;
+        //var renderer;
+        //var camera;
+        //var reticle;
+        //var polyfill;
+        //var boxWidth;
+        //var geometry;
+        //var material;
+        //var loader;
+        //var container;
+        //var raycaster;
+        //var room;
+        //var isMouseDown = false;
+
+        this.INTERSECTED= null;
+
+        //var crosshair;
+
 
         this.clock = new THREE.Clock();
 
@@ -18,6 +41,7 @@ class VR{
 
 
     webgl(){
+
         this.renderer = new THREE.WebGLRenderer();
 
         this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
@@ -28,42 +52,87 @@ class VR{
 
         // Create a three.js scene.
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x00ffa1);
+        //this.scene.background = new THREE.Color(0x00ffa1);
+        this.scene.background = new THREE.Color( 0x505050 );
         // Create a three.js camera.
-        this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 10000);
+        this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-
-
-
-    }
-
-    mobileVR(){
-        document.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-        });
-
-        this.polyfill = new WebVRPolyfill(this.config);
 
         // Chess obj
         this.obj = new OBJLoading('King');
 
         // Create a reticle
-        this.reticle = new THREE.Mesh(
-            new THREE.RingBufferGeometry(0.005, 0.01, 15),
-            new THREE.MeshBasicMaterial({ color: 0xffffff })
-        );
-        this.reticle.position.z = -0.5;
-        this.camera.add(this.reticle);
+        //this.reticle = new THREE.Mesh(
+        //    new THREE.RingBufferGeometry(0.005, 0.01, 15),
+        //    new THREE.MeshBasicMaterial({ color: 0xffffff })
+        //);
+        //this.reticle.position.z = -0.5;
         this.scene.add(this.camera);
+        //this.camera.add(this.reticle);
 
         this.light = new THREE.DirectionalLight( 0xffffff );
         this.light.position.set( 1, 1, 1 ).normalize();
         this.scene.add( this.light );
 
+        //scene = new THREE.Scene();
+        //scene.background = new THREE.Color( 0x505050 );
 
-        // Apply VR stereo rendering to renderer.
-        this.effect = new THREE.VREffect(this.renderer);
-        this.effect.setSize(this.canvas.clientWidth, this.canvas.clientHeight, false);
+        //camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 200 );
+        //scene.add(camera);
+
+        this.crosshair = new THREE.Mesh(
+            new THREE.RingBufferGeometry( 0.02, 0.04, 32 ),
+            new THREE.MeshBasicMaterial( {
+                color: 0xffffff,
+                opacity: 0.5,
+                transparent: true
+            } )
+        );
+
+        this.crosshair.position.z = - 2;
+        this.camera.add(this.crosshair);
+
+        this.room = new THREE.LineSegments(
+            //new THREE.BoxLineGeometry(60, 60, 60, 100, 100, 100 ),
+            //new THREE.BoxLineGeometry(),
+            //new THREE.LineBasicMaterial( { color: 0x808080 } )
+        );
+        this.room.position.y = 3;
+        this.scene.add(this.room);
+
+        this.scene.add( new THREE.HemisphereLight( 0x606060, 0x404040 ) );
+
+        var light = new THREE.DirectionalLight( 0xffffff );
+        light.position.set( 1, 1, 1 ).normalize();
+        this.scene.add( light );
+
+        var geometry = new THREE.BoxBufferGeometry( 0.15, 0.15, 0.15 );
+        //var geometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
+
+        for ( var i = 0; i < 200; i ++ ) {
+
+            var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+
+            object.position.x = Math.random() * 4 - 2;
+            object.position.y = Math.random() * 4 - 2;
+            object.position.z = Math.random() * 4 - 2;
+
+            object.rotation.x = Math.random() * 2 * Math.PI;
+            object.rotation.y = Math.random() * 2 * Math.PI;
+            object.rotation.z = Math.random() * 2 * Math.PI;
+
+            object.scale.x = Math.random() + 0.5;
+            object.scale.y = Math.random() + 0.5;
+            object.scale.z = Math.random() + 0.5;
+
+            object.userData.velocity = new THREE.Vector3();
+            object.userData.velocity.x = Math.random() * 0.01 - 0.005;
+            object.userData.velocity.y = Math.random() * 0.01 - 0.005;
+            object.userData.velocity.z = Math.random() * 0.01 - 0.005;
+
+            this.room.add( object );
+
+        }
 
         // Add a repeating grid as a skybox.
         this.boxWidth = 5;
@@ -82,6 +151,25 @@ class VR{
         // Load the skybox texture and cube
         this.loader = new THREE.TextureLoader();
         this.loader.load('img/box.png', this.onTextureLoaded);
+
+        this.raycaster = new THREE.Raycaster();
+    }
+
+    mobileVR(){
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        });
+
+        this.polyfill = new WebVRPolyfill(this.config);
+
+
+
+
+        // Apply VR stereo rendering to renderer.
+        this.effect = new THREE.VREffect(this.renderer);
+        this.effect.setSize(this.canvas.clientWidth, this.canvas.clientHeight, false);
+
+
 
         // The polyfill provides this in the event this browser
         // does not support WebVR 1.1
@@ -126,11 +214,176 @@ class VR{
 
 
         // Resize the WebGL canvas when we resize and also when we change modes.
-        window.addEventListener('resize', () => { game.onResize(); } );
-        window.addEventListener('vrdisplaypresentchange', () => { game.mobileOnVRDisplayPresentChange(); } );
+        window.addEventListener('resize', () => { instance.onResize(); } );
+        window.addEventListener('vrdisplaypresentchange', () => { instance.mobileOnVRDisplayPresentChange(); } );
 
     }
 
+    computerVR (){
+
+        var instance = this;
+
+
+        this.canvas = this.renderer.domElement;
+        document.body.appendChild(this.canvas);
+        this.renderer = new THREE.WebGLRenderer( { antialias: true } );
+        this.renderer.setPixelRatio( window.devicePixelRatio );
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.renderer.vr.enabled = true;
+
+        this.canvas.addEventListener( 'mousedown', ()=> instance.onMouseDown , false );
+        this.canvas.addEventListener( 'mouseup', ()=> instance.onMouseUp , false );
+        this.canvas.addEventListener( 'touchstart', ()=> instance.onMouseDown , false );
+        this.canvas.addEventListener( 'touchend', ()=> instance.onMouseUp , false );
+
+        window.addEventListener( 'resize', ()=> instance.onWindowResize, false );
+
+        window.addEventListener( 'vrdisplaypointerrestricted', ()=> instance.onPointerRestricted, false );
+        window.addEventListener( 'vrdisplaypointerunrestricted', ()=> instance.onPointerUnrestricted, false );
+
+        document.body.appendChild( WEBVR.createButton( this.renderer ) );
+        console.log("testt");
+    }
+
+    onMouseDown() {
+console.log("testt");
+        this.isMouseDown = true;
+
+    }
+
+    onMouseUp() {
+
+        this.isMouseDown = false;
+
+    }
+
+    onPointerRestricted() {
+
+        var pointerLockElement = renderer.domElement;
+        if ( pointerLockElement && typeof ( pointerLockElement.requestPointerLock ) === 'function' ) {
+
+            pointerLockElement.requestPointerLock();
+
+        }
+
+    }
+
+    onPointerUnrestricted() {
+
+        var currentPointerLockElement = document.pointerLockElement;
+        var expectedPointerLockElement = renderer.domElement;
+        if ( currentPointerLockElement && currentPointerLockElement === expectedPointerLockElement && typeof ( document.exitPointerLock ) === 'function' ) {
+
+            document.exitPointerLock();
+
+        }
+
+    }
+
+    onWindowResize() {
+        console.log("testt");
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
+
+    }
+
+//
+
+    animate() {
+        var instance = this;
+        this.renderer.setAnimationLoop( () => { instance.PCRender(); } );
+
+    }
+
+    PCRender() {
+        var delta = this.clock.getDelta() * 60;
+
+        if ( this.isMouseDown === true ) {
+
+            var cube = room.children[ 0 ];
+            this.room.remove( cube );
+
+            cube.position.set( 0, 0, - 0.75 );
+            cube.position.applyQuaternion( this.camera.quaternion );
+            cube.userData.velocity.x = ( Math.random() - 0.5 ) * 0.02 * delta;
+            cube.userData.velocity.y = ( Math.random() - 0.5 ) * 0.02 * delta;
+            cube.userData.velocity.z = ( Math.random() * 0.01 - 0.05 ) * delta;
+            cube.userData.velocity.applyQuaternion( camera.quaternion );
+            this.room.add( cube );
+
+        }
+
+        // find intersections
+
+        this.raycaster.setFromCamera( { x: 0, y: 0 }, this.camera );
+
+        var intersects = this.raycaster.intersectObjects( this.room.children );
+
+        if ( intersects.length > 0 ) {
+
+            if ( this.INTERSECTED != intersects[ 0 ].object ) {
+
+                if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
+
+                this.INTERSECTED = intersects[ 0 ].object;
+                this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
+                this.INTERSECTED.material.emissive.setHex( 0xff0000 );
+
+            }
+
+        } else {
+
+            if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
+
+            this.INTERSECTED = undefined;
+
+        }
+
+        // Keep cubes inside room
+
+        for ( var i = 0; i < this.room.children.length; i ++ ) {
+
+            var cube = this.room.children[ i ];
+
+            cube.userData.velocity.multiplyScalar( 1 - ( 0.001 * delta ) );
+
+            cube.position.add( cube.userData.velocity );
+
+            if ( cube.position.x < - 3 || cube.position.x > 3 ) {
+
+                cube.position.x = THREE.Math.clamp( cube.position.x, - 3, 3 );
+                cube.userData.velocity.x = - cube.userData.velocity.x;
+
+            }
+
+            if ( cube.position.y < - 3 || cube.position.y > 3 ) {
+
+                cube.position.y = THREE.Math.clamp( cube.position.y, - 3, 3 );
+                cube.userData.velocity.y = - cube.userData.velocity.y;
+
+            }
+
+            if ( cube.position.z < - 3 || cube.position.z > 3 ) {
+
+                cube.position.z = THREE.Math.clamp( cube.position.z, - 3, 3 );
+                cube.userData.velocity.z = - cube.userData.velocity.z;
+
+            }
+
+            cube.rotation.x += cube.userData.velocity.x * 2 * delta;
+            cube.rotation.y += cube.userData.velocity.y * 2 * delta;
+            cube.rotation.z += cube.userData.velocity.z * 2 * delta;
+
+        }
+
+
+
+
+        this.renderer.render( this.scene, this.camera );
+
+    }
 
 
     onTextureLoaded(texture) {
@@ -263,242 +516,106 @@ document.getElementById('MobileVR').onclick = () => {
 
     game.webgl();
     game.mobileVR();
+    game.animate();
+}
 
 
+document.getElementById('ComputerVR').onclick = function() {
+    document.getElementById('defaultButtons').style.display = "none";
+    game.webgl();
+    game.computerVR();
+    //game.init();
+    game.animate();
+
+}
 
 
 /*
-    document.addEventListener('touchmove', function(e) {
-        e.preventDefault();
-    });
-
-
-    renderer = new THREE.WebGLRenderer();
-    polyfill = new WebVRPolyfill(config);
-    renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
-
-    // Append the canvas element created by the renderer to document body element.
-    canvas = renderer.domElement;
-    document.body.appendChild(canvas);
-
-    // Create a three.js scene.
+function init() {
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x00ffa1);
-    // Create a three.js camera.
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 10000);
+    scene.background = new THREE.Color( 0x505050 );
 
-
-    // Chess obj
-    let obj = new OBJLoading('King');
-
-    // Create a reticle
-    reticle = new THREE.Mesh(
-        new THREE.RingBufferGeometry(0.005, 0.01, 15),
-        new THREE.MeshBasicMaterial({ color: 0xffffff })
-    );
-    reticle.position.z = -0.5;
-    camera.add(reticle);
+    camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 200 );
     scene.add(camera);
+
+    crosshair = new THREE.Mesh(
+        new THREE.RingBufferGeometry( 0.02, 0.04, 32 ),
+        new THREE.MeshBasicMaterial( {
+            color: 0xffffff,
+            opacity: 0.5,
+            transparent: true
+        } )
+    );
+
+    crosshair.position.z = - 2;
+    camera.add(crosshair);
+
+    room = new THREE.LineSegments(
+        //new THREE.BoxLineGeometry(60, 60, 60, 100, 100, 100 ),
+        //new THREE.BoxLineGeometry(),
+        //new THREE.LineBasicMaterial( { color: 0x808080 } )
+    );
+    room.position.y = 3;
+    scene.add(room);
+
+    scene.add( new THREE.HemisphereLight( 0x606060, 0x404040 ) );
 
     var light = new THREE.DirectionalLight( 0xffffff );
     light.position.set( 1, 1, 1 ).normalize();
     scene.add( light );
 
+    var geometry = new THREE.BoxBufferGeometry( 0.15, 0.15, 0.15 );
+    //var geometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
 
-    // Apply VR stereo rendering to renderer.
-    effect = new THREE.VREffect(renderer);
-    effect.setSize(canvas.clientWidth, canvas.clientHeight, false);
+    for ( var i = 0; i < 200; i ++ ) {
 
-    // Add a repeating grid as a skybox.
-    boxWidth = 5;
+        var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
 
-    // Create 3D objects.
-    geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-    material = new THREE.MeshNormalMaterial();
-    cube = new THREE.Mesh(geometry, material);
+        object.position.x = Math.random() * 4 - 2;
+        object.position.y = Math.random() * 4 - 2;
+        object.position.z = Math.random() * 4 - 2;
 
-    // Position cube
-    cube.position.z = -1;
+        object.rotation.x = Math.random() * 2 * Math.PI;
+        object.rotation.y = Math.random() * 2 * Math.PI;
+        object.rotation.z = Math.random() * 2 * Math.PI;
 
-    // Add cube mesh to your three.js scene
-    //scene.add(cube);
+        object.scale.x = Math.random() + 0.5;
+        object.scale.y = Math.random() + 0.5;
+        object.scale.z = Math.random() + 0.5;
 
-    // Load the skybox texture and cube
-    loader = new THREE.TextureLoader();
-    loader.load('img/box.png', onTextureLoaded);
+        object.userData.velocity = new THREE.Vector3();
+        object.userData.velocity.x = Math.random() * 0.01 - 0.005;
+        object.userData.velocity.y = Math.random() * 0.01 - 0.005;
+        object.userData.velocity.z = Math.random() * 0.01 - 0.005;
 
-    // The polyfill provides this in the event this browser
-    // does not support WebVR 1.1
-    navigator.getVRDisplays().then(function (vrDisplays) {
-        if(vrDisplays.length){
-            console.log("welllll");
-            // If we have a native display, or we have a CardboardVRDisplay
-            // from the polyfill, use it
+        room.add( object );
 
-            console.log("test1");
-            vrDisplay = vrDisplays[0];
-
-            // Apply VR headset positional data to camera.
-            controls = new THREE.VRControls(camera);
-
-            // Kick off the render loop.
-            vrDisplay.requestAnimationFrame(mobileAnimate);
-        }
-        // Otherwise, we're on a desktop environment with no native
-        // displays, so provide controls for a monoscopic desktop view
-        //else {
-
-        //}
-    });
-    console.log("test2");
-    controls = new THREE.OrbitControls(camera);
-    controls.target.set(0, 0, -1);
-
-    // Disable the "Enter VR" button
-    var enterVRButton = document.querySelector('#vr');
-    enterVRButton.disabled = true;
-
-    // Kick off the render loop.
-    requestAnimationFrame(mobileAnimate);
-
-
-    // Resize the WebGL canvas when we resize and also when we change modes.
-    window.addEventListener('resize', onResize);
-    //window.addEventListener('vrdisplaypresentchange', mobileOnVRDisplayPresentChange);
-    //window.addEventListener('vrdisplayconnect', mobileOnVRDisplayConnect);
-
-    document.querySelector('button#fullscreen').addEventListener('click', function() {
-        enterFullscreen(renderer.domElement);
-    });
-    document.querySelector('button#vr').addEventListener('click', function() {
-        vrDisplay.requestPresent([{source: renderer.domElement}]);
-    });
-
-*/
-
-
-}
-// Request animation frame loop function
-
-
-/*
-function onTextureLoaded(texture) {
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(boxWidth, boxWidth);
-    var geometry = new THREE.BoxGeometry(boxWidth, boxWidth, boxWidth);
-
-    var material = new THREE.MeshBasicMaterial({
-        map: texture,
-        color: 0x01BE00,
-        side: THREE.BackSide
-    });
-    var skybox = new THREE.Mesh(geometry, material);
-    scene.add(skybox);
-}
-*/
-
-/*
-function mobileAnimate(timestamp) {
-    var delta = Math.min(timestamp - lastRender, 500);
-    lastRender = timestamp;
-
-    // Apply rotation to cube mesh
-    cube.rotation.y += delta * 0.0002;
-
-    // Update VR headset position and apply to camera.
-    controls.update();
-
-    // Render the scene.
-    effect.render(scene, camera);
-
-    // Keep looping; if using a VRDisplay, call its requestAnimationFrame,
-    // otherwise call window.requestAnimationFrame.
-    if (vrDisplay) {
-        vrDisplay.requestAnimationFrame(mobileAnimate);
-    } else {
-        requestAnimationFrame(mobileAnimate);
     }
-}
 */
-
 /*
-function onResize() {
-    // The delay ensures the browser has a chance to layout
-    // the page and update the clientWidth/clientHeight.
-    // This problem particularly crops up under iOS.
-    if (!onResize.resizeDelay) {
-        onResize.resizeDelay = setTimeout(function () {
-            onResize.resizeDelay = null;
-            console.log('Resizing to %s x %s.', canvas.clientWidth, canvas.clientHeight);
-            effect.setSize(canvas.clientWidth, canvas.clientHeight, false);
-            camera.aspect = canvas.clientWidth / canvas.clientHeight;
-            camera.updateProjectionMatrix();
-        }, 250);
-    }
-}
+    raycaster = new THREE.Raycaster();
 
-function mobileOnVRDisplayPresentChange() {
-    console.log('onVRDisplayPresentChange');
-    onResize();
-    document.getElementById('mobileButtons').hidden = vrDisplay.isPresenting;
-}
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.vr.enabled = true;
+    container.appendChild( renderer.domElement );
 
-function mobileOnVRDisplayConnect(e) {
-    console.log('onVRDisplayConnect', (e.display || (e.detail && e.detail.display)));
-}
+    renderer.domElement.addEventListener( 'mousedown', onMouseDown, false );
+    renderer.domElement.addEventListener( 'mouseup', onMouseUp, false );
+    renderer.domElement.addEventListener( 'touchstart', onMouseDown, false );
+    renderer.domElement.addEventListener( 'touchend', onMouseUp, false );
 
+    window.addEventListener( 'resize', onWindowResize, false );
 
+    window.addEventListener( 'vrdisplaypointerrestricted', onPointerRestricted, false );
+    window.addEventListener( 'vrdisplaypointerunrestricted', onPointerUnrestricted, false );
 
-function enterFullscreen (el) {
-    if (el.requestFullscreen) {
-        el.requestFullscreen();
-    } else if (el.mozRequestFullScreen) {
-        el.mozRequestFullScreen();
-    } else if (el.webkitRequestFullscreen) {
-        el.webkitRequestFullscreen();
-    } else if (el.msRequestFullscreen) {
-        el.msRequestFullscreen();
-    }
-}
-*/
+    document.body.appendChild( WEBVR.createButton( renderer ) );
+    */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-document.getElementById('ComputerVR').onclick = function() {
-    document.getElementById('defaultButtons').style.display = "none";
-    init();
-    animate();
-    let obj = new OBJLoading('King');
-
-
-
-
-
-}
-
-function init() {
-
+//}
+    /*
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
