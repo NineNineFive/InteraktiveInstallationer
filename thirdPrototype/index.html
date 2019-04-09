@@ -30,28 +30,22 @@ check READMEandLICENSE.txt for this info.
 
 </div>
 <div id="info">
-    Wizard VR Chess
+    WebVR Gruppe 9
     <div id="feedback"></div>
 </div>
 
 <!-- The seperator -->
-
-<script src="js/third-party/VR/three.js"></script>
-
-<!--
-<script src="threett/examples/js/controls/TrackballControls.js"></script>
-<script src="threett/examples/js/libs/dat.gui.min.js"></script>
--->
-<script src="js/third-party/VR/MTLLoader.js"></script>
-
-<script src="js/third-party/VR/LoaderSupport.js"></script>
-<script src="js/third-party/VR/OBJLoader2.js"></script>
-
-
-
-<script src="js/third-party/VR/WebVR.js"></script>
-
+<script src="js/third-party/VR/three.js"></script> <!-- ThreeJS Library -->
+<script src="js/third-party/VR/MTLLoader.js"></script> <!-- Material loader for 3d objects -->
+<script src="js/third-party/VR/LoaderSupport.js"></script> <!-- Loader Support for 3d objects -->
+<script src="js/third-party/VR/OBJLoader2.js"></script> <!-- OBJ 3d obj loader -->
+<script src="js/third-party/VR/WebVR.js"></script> <!-- WEBVR -->
 <script src="js/third-party/VR/BoxLineGeometry.js"></script>
+
+<script src="js/third-party/VR/VRControls.js"></script> <!-- VRControls.js applies the WebVR transformations to a three.js camera object. -->
+<script src="js/third-party/VR/OrbitControls.js"></script> <!-- OrbitControls.js for controlling camera on desktop.  -->
+<script src="js/third-party/VR/VREffect.js"></script> <!-- VREffect.js handles stereo camera setup and rendering.  -->
+<script src="js/third-party/VR/webvr-polyfill.js"></script> <!-- Mobile WEBVR -->
 
 <div id="defaultButtons">
     <button id="ComputerVR" style="z-index: 500; font-size: 20px; padding: 10px; position: fixed; top: 50px; left: 50px;">Computer VR</button>
@@ -62,24 +56,17 @@ check READMEandLICENSE.txt for this info.
     <button id="vr">VR (WebVR/Mobile only)</button>
 </div>
 
+
+
+
+
+
 <script src="js/ourfiles/objloader.js"></script>
+<script src="js/ourfiles/VR.js"></script>
+
+<!--
 <script src="js/ourfiles/computerVR.js"></script>
-
-<!-- three.js library -->
-<!--<script src="third_party/three.js/three.js"></script>-->
-
-<!-- VRControls.js applies the WebVR transformations to a three.js camera object. -->
-<script src=js/third-party/VR/VRControls.js"></script>
-
-<!-- OrbitControls.js for controlling camera on desktop.  -->
-<script src="js/third-party/VR/OrbitControls.js"></script>
-
-<!-- VREffect.js handles stereo camera setup and rendering.  -->
-<script src="js/third-party/VR/VREffect.js"></script>
-
-<script src="js/third-party/VR/webvr-polyfill.js"></script>
-
 <script src="js/ourfiles/mobileVR.js"></script>
-
+-->
 </body>
 </html>

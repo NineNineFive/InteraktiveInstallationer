@@ -16,7 +16,7 @@ class OBJLoading {
 
 
 var objref;
-
+console.log("testtt");
     class OBJLoading {
         constructor(modelName) {
             var modelName = modelName;
@@ -24,7 +24,7 @@ var objref;
 
             var callbackOnLoad = function ( event ) {
                 objref = event.detail.loaderRootNode;
-                scene.add(objref);
+                game.scene.add(objref);
 
                 objref.position.x = 0;
                 objref.position.y = 0;

@@ -1,8 +1,0 @@
-.babelrc
-.github
-.travis.yml
-examples
-index.html
-licenses.txt
-rollup.config.*
-test
