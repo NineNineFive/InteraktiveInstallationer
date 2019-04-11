@@ -1,29 +1,23 @@
-/*
-var chess;
 
-function setup() {
-    createCanvas(1000,1000,WEBGL);
-    noLoop();
-  // put setup code here
+var game = new VR();
 
-    background(0);
 
-    push();
-    rotateZ(frameCount * 0.02);
-    rotateX(frameCount * 0.02);
-    rotateY(frameCount * 0.02);
-    fill(255, 255, 255);
-    box(50);
-    pop();
+game.webgl();
+document.getElementById('MobileVR').onclick = () => {
+    document.getElementById('defaultButtons').style.display = "none";
+    document.getElementById('mobileButtons').style.display = "block";
 
-    chess = loadModel('chess-pieces.obj');
-    // put drawing code here
 
-    model(chess);
-    box(50);
+    game.mobileVR();
+    game.animate();
 }
 
-function draw() {
+
+document.getElementById('ComputerVR').onclick = function() {
+    document.getElementById('defaultButtons').style.display = "none";
+    //game.webgl();
+    game.computerVR();
+    //game.init();
+    game.animate();
 
 }
-*/

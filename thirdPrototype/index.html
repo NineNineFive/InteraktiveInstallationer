@@ -66,14 +66,15 @@ check READMEandLICENSE.txt for this info.
 <script src="js/ourfiles/objloader.js"></script>
 <script src="js/ourfiles/VR.js"></script>
 
-<script src="js/ourfiles/speechReg.js"></script>
-<!--<script src="js/ourfiles/ananas.js"></script>
+<!--<script src="js/ourfiles/speechReg.js"></script>-->
+<script src="sketch.js"></script>
+<script src="js/ourfiles/ananas.js"></script>
 <script>
     if (annyang) {
         // Let's define our first command. First the text we expect, and then the function it should call
         var commands = {
-            'show tps report': function() {
-                alert("Hej Lars");
+            'fire': function() {
+                game.removeIntersectedObj();
             }
         };
 
@@ -84,7 +85,6 @@ check READMEandLICENSE.txt for this info.
         annyang.start();
     }
 </script>
--->
 
 <!--
 <script src="js/ourfiles/computerVR.js"></script>

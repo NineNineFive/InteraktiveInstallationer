@@ -21,16 +21,17 @@ class OBJLoading {
             this.modelName = modelName;
             this.obj = null;
             var objload = new THREE.OBJLoader2();
-            var objref = null;
+            var obj = null;
 
 
             var callbackOnLoad = function ( event ) {
-                objref = event.detail.loaderRootNode;
+                obj = event.detail.loaderRootNode;
                 //game.scene.add(objref);
 
 
 
-                objref.castShadow = true;
+
+                game.addObj(obj);
                 //objref.children[0].material.color = {r:1,g:0,b:0};
 
 
@@ -45,7 +46,7 @@ class OBJLoading {
             };
             objload.loadMtl('models/'+modelName+'.mtl', null, onLoadMtl );
 
-            this.obj = objref;
+
         }
     };
 

@@ -10,11 +10,56 @@ class VR{
         this.clock = new THREE.Clock();
         this.config = false; // dont know what this does yet
 
-        this.objects = [new OBJLoading('King'), new OBJLoading('Queen')];
+        this.loadObjects = [new OBJLoading('King'), new OBJLoading('Queen')];
+        this.objects = [];
         console.log(this.objects);
 
     }
 
+    addObj(obj){
+        obj.castShadow = true;
+        this.scene.add(obj);
+        this.objects.push(obj);
+        this.changeObjs();
+    }
+
+    changeObjs(){
+        for(var i = 0; i < this.objects.length; i++){
+            this.objects[i].position.x = (i*5);
+            this.objects[i].position.y = 0;
+            this.objects[i].position.z = -5;
+            //objref.rotation.z = 80;
+            this.objects[i].scale.x = 0.5;
+            this.objects[i].scale.y = 0.5;
+            this.objects[i].scale.z = 0.5;
+        }
+    }
+
+    removeIntersectedObj(){
+        var delta = this.clock.getDelta() * 60;
+
+        // find intersections
+        this.raycaster.setFromCamera( { x: 0, y: 0 }, this.camera );
+        if(this.scene.children!=null) {
+            var intersects = this.raycaster.intersectObjects(this.scene.children, true);
+            console.log("true");
+        }
+        if ( intersects!=null && intersects.length > 0 ) {
+
+            if ( this.INTERSECTED != intersects[ 0 ] ) {
+                if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
+                this.INTERSECTED = intersects[ 0 ].object;
+                console.log(this.INTERSECTED);
+                //this.scene.remove(this.INTERSECTED);
+
+                //this.INTERSECTED.material.emissive.setHex( 0xff0000 );
+            }
+        } else {
+            if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
+            this.INTERSECTED = undefined;
+        }
+        this.renderer.render( this.scene, this.camera );
+    }
 
     webgl(){
 
@@ -36,17 +81,6 @@ class VR{
 
         // Chess obj
 
-        //this.obj = new OBJLoading('King');
-        for(var i = 0; i<this.objects.length;i++){
-            this.scene.add(this.objects[i]);
-            //this.objects[i].position.x = 0;
-            //this.objects[i].position.y = 0;
-            //this.objects[i].position.z = -5;
-            //objref.rotation.z = 80;
-            //this.objects[i].scale.x = 0.5;
-            //this.objects[i].scale.y = 0.5;
-            //this.objects[i].scale.z = 0.5;
-        }
 
         this.scene.add(this.camera);
 
@@ -202,16 +236,16 @@ class VR{
 
         // find intersections
         this.raycaster.setFromCamera( { x: 0, y: 0 }, this.camera );
-        if(this.scene.children[4]!=null)
-        var intersects = this.raycaster.intersectObjects( this.scene.children[4].children, true);
-
+        if(this.scene.children!=null) {
+            var intersects = this.raycaster.intersectObjects(this.scene.children, true);
+        }
         if ( intersects!=null && intersects.length > 0 ) {
 
             if ( this.INTERSECTED != intersects[ 0 ] ) {
                 if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
                 this.INTERSECTED = intersects[ 0 ].object;
                 //this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
-                //this.INTERSECTED.material.color = {r:1,g:0,b:0};
+                //this.INTERSECTED.material.color = {r:1,g:0,b:0}; // VERY REED!!!
                 this.INTERSECTED.material.emissive.setHex( 0xff0000 );
             }
         } else {
@@ -278,26 +312,3 @@ function mobileAnimate(timestamp){
 
 }
 
-
-var game = new VR();
-
-
-game.webgl();
-document.getElementById('MobileVR').onclick = () => {
-    document.getElementById('defaultButtons').style.display = "none";
-    document.getElementById('mobileButtons').style.display = "block";
-
-
-    game.mobileVR();
-    game.animate();
-}
-
-
-document.getElementById('ComputerVR').onclick = function() {
-    document.getElementById('defaultButtons').style.display = "none";
-    //game.webgl();
-    game.computerVR();
-    //game.init();
-    game.animate();
-
-}
