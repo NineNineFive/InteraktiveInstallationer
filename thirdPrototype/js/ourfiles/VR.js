@@ -163,8 +163,8 @@ class VR{
         this.controls.target.set(0, 0, -1);
 
         // Disable the "Enter VR" button
-        var enterVRButton = document.querySelector('#vr');
-        enterVRButton.disabled = true;
+        //var enterVRButton = document.querySelector('#vr');
+        //enterVRButton.disabled = true;
 
         // Kick off the render loop.
         requestAnimationFrame(mobileAnimate);
@@ -246,6 +246,7 @@ class VR{
     }
 
     render() {
+
         var delta = this.clock.getDelta() * 60;
 
         // find intersections
