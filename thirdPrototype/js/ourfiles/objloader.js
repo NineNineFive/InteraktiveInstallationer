@@ -15,36 +15,37 @@ class OBJLoading {
 */
 
 
-var objref;
+
     class OBJLoading {
         constructor(modelName) {
-            var modelName = modelName;
-            var obj = new THREE.OBJLoader2();
+            this.modelName = modelName;
+            this.obj = null;
+            var objload = new THREE.OBJLoader2();
+            var objref = null;
+
 
             var callbackOnLoad = function ( event ) {
                 objref = event.detail.loaderRootNode;
-                game.scene.add(objref);
+                //game.scene.add(objref);
 
-                objref.position.x = 0;
-                objref.position.y = 0;
-                objref.position.z = -5;
-                //objref.rotation.z = 80;
-                objref.scale.x = 0.5;
-                objref.scale.y = 0.5;
-                objref.scale.z = 0.5;
+
+
+                objref.castShadow = true;
+                //objref.children[0].material.color = {r:1,g:0,b:0};
 
 
                 //objref.rotateX(300);
                 //objref.scale = new THREE.Vector3(0.1,0.1,0.1);
-
             };
 
             var onLoadMtl = function ( materials ) {
-                obj.setModelName(modelName);
-                obj.setMaterials( materials );
-                obj.load('models/'+modelName+'.obj', callbackOnLoad, null, null, null, false );
+                objload.setModelName(modelName);
+                objload.setMaterials( materials );
+                objload.load('models/'+modelName+'.obj', callbackOnLoad, null, null, null, false );
             };
-            obj.loadMtl('models/'+modelName+'.mtl', null, onLoadMtl );
+            objload.loadMtl('models/'+modelName+'.mtl', null, onLoadMtl );
+
+            this.obj = objref;
         }
     };
 
