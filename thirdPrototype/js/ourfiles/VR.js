@@ -50,6 +50,20 @@ class VR{
                 if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
                 this.INTERSECTED = intersects[ 0 ].object;
                 console.log(this.INTERSECTED);
+				console.log(this.objects[0].children[0]);
+				
+				for(let i = 0; i < this.objects.length; i++){
+					
+					if (this.objects[i].children[0].name == this.INTERSECTED.name){
+						console.log("match");
+						this.scene.remove(this.objects[i]); 
+						
+					}
+					
+					
+				}
+				
+				
                 //this.scene.remove(this.INTERSECTED);
 
                 //this.INTERSECTED.material.emissive.setHex( 0xff0000 );

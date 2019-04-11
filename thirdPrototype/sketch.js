@@ -1,5 +1,5 @@
 
-var game = new VR();
+var game = new VR(); 
 
 
 game.webgl();
@@ -21,3 +21,32 @@ document.getElementById('ComputerVR').onclick = function() {
     game.animate();
 
 }
+
+var Rook = new OBJLoading("Rook"); 
+
+function setup(){
+	
+	
+	console.log("kage"); 
+	
+	 
+	
+}
+
+
+
+	
+
+
+function draw(){
+	
+	
+	
+	
+	
+}
+
+window.onload = setup(); 
+
+
+
