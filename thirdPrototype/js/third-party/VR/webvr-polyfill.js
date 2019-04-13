@@ -1243,7 +1243,7 @@ var kOuterRadius = 1;
 var kMiddleRadius = 0.75;
 var kInnerRadius = 0.3125;
 var kCenterLineThicknessDp = 4;
-var kButtonWidthDp = 28;
+var kButtonWidthDp = 0;
 var kTouchSlopFactor = 1.5;
 function CardboardUI(gl) {
   this.gl = gl;
@@ -2435,7 +2435,7 @@ function RotateInstructions() {
   overlay.appendChild(text);
   var snackbar = document.createElement('div');
   var s = snackbar.style;
-  s.backgroundColor = '#CFD8DC';
+  s.backgroundColor = '#AAD8AC';
   s.position = 'fixed';
   s.bottom = 0;
   s.width = '100%';
@@ -2591,7 +2591,7 @@ ViewerSelector.prototype.createDialog_ = function (options) {
   s.width = width + 'px';
   s.padding = '24px';
   s.overflow = 'hidden';
-  s.background = '#fafafa';
+  s.background = '#0afa0a';
   s.fontFamily = "'Roboto', sans-serif";
   s.boxShadow = '0px 5px 20px #666';
   dialog.appendChild(this.createH1_('Select your viewer'));
@@ -3323,8 +3323,8 @@ CardboardVRDisplay.prototype.onResize_ = function (e) {
   if (this.layer_) {
     var gl = this.layer_.source.getContext('webgl');
     var cssProperties = ['position: absolute', 'top: 0', 'left: 0',
-    'width: 100vw', 'height: 100vh', 'border: 0', 'margin: 0',
-    'padding: 0px', 'box-sizing: content-box'];
+    'width: 90vw', 'height: 90vh', 'border: 0', 'margin: 0',
+    'padding: 5vh 5vw 5vh 5vw', 'box-sizing: content-box'];
     gl.canvas.setAttribute('style', cssProperties.join('; ') + ';');
     safariCssSizeWorkaround(gl.canvas);
   }
