@@ -87,7 +87,6 @@ body {
     color: darkorange;
 }
 #dat {
-    user-select: none;
     position: absolute;
     left: 0;
     top: 0;

@@ -62,7 +62,7 @@ if(is_chrome) {
 
     }
 
-    var speech = new SpeechReg();
+
 
 
 }

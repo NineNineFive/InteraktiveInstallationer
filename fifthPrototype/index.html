@@ -1,0 +1,110 @@
+<!doctype html>
+<!--
+Copyright 2016 The Chromium Authors. All rights reserved.
+Use of this source code is governed by a BSD-style license that can be
+found in the LICENSE file.
+-->
+<!--
+Lars Bek:
+It is free of charge to use as of the license.
+We use this as our VR Library for a Study Project at Roskilde University.
+check READMEandLICENSE.txt for this info.
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="origin-trial" data-feature="WebVR (For Chrome M62+)" data-expires="2018-09-10" content="AhQcOrbjvS0+50wwuqtAidzraKNfZj8Bj159g2+2LsT5QRHe9IeebCl5ApORwd3oGxfKzl5H8s5K3aTMNzC+5gsAAABPeyJvcmlnaW4iOiJodHRwczovL3dlYnZyLmluZm86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xTTYyIiwiZXhwaXJ5IjoxNTM2NjAxNDEzfQ==">
+
+    <title>VR Wizard Chess</title>
+
+    <link href="css/default.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<canvas id="webgl-canvas"></canvas>
+<div id="presenting-message">Put on your headset now</div>
+<div id="dat">
+
+</div>
+<div id="info">
+    WebVR Gruppe 9
+    <br>
+    MobileVR and Speech Reg: Only fully supported on chrome | ComputerVR and no Speech Reg: Only fully supported on Firefox
+    <div id="feedback"></div>
+</div>
+
+<!-- The seperator -->
+<script src="js/third-party/VR/three.js"></script> <!-- ThreeJS Library -->
+<script src="js/third-party/VR/MTLLoader.js"></script> <!-- Material loader for 3d objects -->
+<script src="js/third-party/VR/LoaderSupport.js"></script> <!-- Loader Support for 3d objects -->
+<script src="js/third-party/VR/OBJLoader2.js"></script> <!-- OBJ 3d obj loader -->
+<script src="js/third-party/VR/WebVR.js"></script> <!-- WEBVR -->
+<script src="js/third-party/VR/BoxLineGeometry.js"></script>
+
+<script src="js/third-party/VR/VRControls.js"></script> <!-- VRControls.js applies the WebVR transformations to a three.js camera object. -->
+<script src="js/third-party/VR/OrbitControls.js"></script> <!-- OrbitControls.js for controlling camera on desktop.  -->
+<script src="js/third-party/VR/VREffect.js"></script> <!-- VREffect.js handles stereo camera setup and rendering.  -->
+<script src="js/third-party/VR/webvr-polyfill.js"></script> <!-- Mobile WEBVR -->
+
+<div id="defaultButtons">
+    <button id="ComputerVR" style="z-index: 500; font-size: 20px; padding: 10px; position: fixed; top: 50px; left: 50px;">Computer VR</button>
+    <button id="MobileVR" style="z-index: 500; font-size: 20px; padding: 10px; position: fixed; top: 120px; left: 50px;">Mobile VR</button>
+</div>
+<div id="mobileButtons">
+    <button id="fullscreen">Fullscreen</button>
+    <button id="vr">VR (WebVR/Mobile only)</button>
+</div>
+
+
+
+
+
+
+<script src="js/ourfiles/objloader.js"></script>
+<script src="js/ourfiles/VR.js"></script>
+
+
+<!--<script src="js/ourfiles/speechReg.js"></script>-->
+<script src="sketch.js"></script>
+
+
+<script src="js/third-party/SpeechReg/ananas.js"></script>
+<script>
+    if (annyang) {
+        // Let's define our first command. First the text we expect, and then the function it should call
+        var commands = {
+            'select': function() {
+                vr.commandIntersectedObj("select");
+            },
+            'move': function() {
+                vr.commandIntersectedObj("move");
+            },
+            'take': function() {
+                vr.commandIntersectedObj("take");
+            },
+            'cancel': function() {
+                vr.commandIntersectedObj("cancel");
+            },
+            'remove': function() {
+                vr.commandIntersectedObj("remove");
+            }
+        };
+
+        // Add our commands to annyang
+        annyang.addCommands(commands);
+
+        // Start listening. You can call this here, or attach this call to an event, button, etc.
+        annyang.start();
+    }
+</script>
+
+
+<!--
+<script src="js/ourfiles/computerVR.js"></script>
+<script src="js/ourfiles/mobileVR.js"></script>
+-->
+</body>
+</html>

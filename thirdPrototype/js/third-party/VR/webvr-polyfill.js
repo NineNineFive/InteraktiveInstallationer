@@ -3323,8 +3323,8 @@ CardboardVRDisplay.prototype.onResize_ = function (e) {
   if (this.layer_) {
     var gl = this.layer_.source.getContext('webgl');
     var cssProperties = ['position: absolute', 'top: 0', 'left: 0',
-    'width: 90vw', 'height: 90vh', 'border: 0', 'margin: 0',
-    'padding: 5vh 5vw 5vh 5vw', 'box-sizing: content-box'];
+    'width: 100vw', 'height: 100vh', 'border: 0', 'margin: 0',
+    'padding: 0', 'box-sizing: content-box'];
     gl.canvas.setAttribute('style', cssProperties.join('; ') + ';');
     safariCssSizeWorkaround(gl.canvas);
   }

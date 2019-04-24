@@ -15,7 +15,7 @@ class OBJLoading {
 */
 
 
-
+/*
     class OBJLoading {
         constructor(modelName) {
             this.modelName = modelName;
@@ -49,6 +49,7 @@ class OBJLoading {
 
         }
     };
+*/
 
     //var canvas = document.getElementById( 'webgl-canvas' );
 

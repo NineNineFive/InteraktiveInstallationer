@@ -203,7 +203,7 @@ THREE.LoaderSupport.ResourceDescriptor.prototype = {
  */
 THREE.LoaderSupport.PrepData = function ( modelName ) {
     this.logging = {
-        enabled: true,
+        enabled: false,
         debug: false
     };
     this.modelName = THREE.LoaderSupport.Validator.verifyInput( modelName, '' );
@@ -347,11 +347,11 @@ THREE.LoaderSupport.PrepData.prototype = {
  * @class
  */
 THREE.LoaderSupport.MeshBuilder = function() {
-    console.info( 'Using THREE.LoaderSupport.MeshBuilder version: ' + THREE.LoaderSupport.MeshBuilder.LOADER_MESH_BUILDER_VERSION );
+    //console.info( 'Using THREE.LoaderSupport.MeshBuilder version: ' + THREE.LoaderSupport.MeshBuilder.LOADER_MESH_BUILDER_VERSION );
     this.validator = THREE.LoaderSupport.Validator;
 
     this.logging = {
-        enabled: true,
+        enabled: false,
         debug: false
     };
 
@@ -715,9 +715,9 @@ THREE.LoaderSupport.MeshBuilder.prototype = {
  * @class
  */
 THREE.LoaderSupport.WorkerSupport = function () {
-    console.info( 'Using THREE.LoaderSupport.WorkerSupport version: ' + THREE.LoaderSupport.WorkerSupport.WORKER_SUPPORT_VERSION );
+    //console.info( 'Using THREE.LoaderSupport.WorkerSupport version: ' + THREE.LoaderSupport.WorkerSupport.WORKER_SUPPORT_VERSION );
     this.logging = {
-        enabled: true,
+        enabled: false,
         debug: false
     };
 

@@ -9,11 +9,7 @@ class VR{
         this.INTERSECTED= null;
         this.clock = new THREE.Clock();
         this.config = false; // dont know what this does yet
-
-        this.loadObjects = [new OBJLoading('King'), new OBJLoading('Queen')];
         this.objects = [];
-        console.log(this.objects);
-
     }
 
     addObj(obj){
@@ -234,10 +230,10 @@ class VR{
     }
 
     onWindowResize() {
-        // Should be fixed with changing "game" to "this" in future
-        game.camera.aspect = window.innerWidth / window.innerHeight;
-        game.camera.updateProjectionMatrix();
-        game.renderer.setSize( window.innerWidth, window.innerHeight );
+        // Should be fixed with changing "vr" to "this" in future
+        vr.camera.aspect = window.innerWidth / window.innerHeight;
+        vr.camera.updateProjectionMatrix();
+        vr.renderer.setSize( window.innerWidth, window.innerHeight );
     }
 
     animate() {
@@ -246,7 +242,7 @@ class VR{
     }
 
     render() {
-
+/*
         var delta = this.clock.getDelta() * 60;
 
         // find intersections
@@ -261,12 +257,13 @@ class VR{
                 this.INTERSECTED = intersects[ 0 ].object;
                 //this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
                 //this.INTERSECTED.material.color = {r:1,g:0,b:0}; // VERY REED!!!
-                this.INTERSECTED.material.emissive.setHex( 0xff0000 );
+                //this.INTERSECTED.material.emissive.setHex( 0xff0000 );
             }
         } else {
             if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
             this.INTERSECTED = undefined;
         }
+        */
         this.renderer.render( this.scene, this.camera );
     }
 
@@ -301,26 +298,24 @@ class VR{
 
 
 function mobileAnimate(timestamp){
-    console.log("mobileAnimate");
-
     // Try to fiddle with this script and see what it truly does
 
-    var delta = Math.min(timestamp - game.lastRender, 500);
-    game.lastRender = timestamp;
+    var delta = Math.min(timestamp - vr.lastRender, 500);
+    vr.lastRender = timestamp;
 
     // Apply rotation to cube mesh
-    //game.cube.rotation.y += delta * 0.0002;
+    //vr.cube.rotation.y += delta * 0.0002;
 
     // Update VR headset position and apply to camera.
-    game.controls.update();
+    vr.controls.update();
 
     // Render the scene.
-    game.effect.render(game.scene, game.camera);
+    vr.effect.render(vr.scene, vr.camera);
 
     // Keep looping; if using a VRDisplay, call its requestAnimationFrame,
     // otherwise call window.requestAnimationFrame.
-    if (game.vrDisplay) {
-        game.vrDisplay.requestAnimationFrame(mobileAnimate);
+    if (vr.vrDisplay) {
+        vr.vrDisplay.requestAnimationFrame(mobileAnimate);
     } else {
         requestAnimationFrame(mobileAnimate);
     }

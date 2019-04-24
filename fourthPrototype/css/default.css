@@ -1,0 +1,94 @@
+html, body {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    color: #fff;
+    overflow: hidden;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#mobileButtons {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 100000;
+    background: white;
+    display: none;
+}
+
+#defaultCanvas0, #webgl-canvas, #presenting-message {
+    box-sizing: border-box;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+#presenting-message {
+    color: white;
+    font-family: sans-serif;
+    font-size: 2em;
+    font-weight: bold;
+    z-index: 1;
+    text-align: center;
+    padding: 0.5em;
+    background-color: #444;
+    display: none;
+}
+
+body {
+    font-family: Monospace;
+    background-color: #000;
+    color: #fff;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    border: none;
+    cursor: default;
+}
+#info {
+    color: #fff;
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    text-align: center;
+    z-index: 100;
+    display:block;
+}
+#info a {
+    color: #f00;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer
+}
+#glFullscreen {
+    width: 100%;
+    height: 100vh;
+    min-width: 640px;
+    min-height: 360px;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+}
+#example {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+}
+#feedback {
+    color: darkorange;
+}
+#dat {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-Index: 2;
+}
