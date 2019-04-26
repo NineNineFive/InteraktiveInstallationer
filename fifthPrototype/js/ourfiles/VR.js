@@ -30,18 +30,26 @@ class VR{
                         if (objs[i].uuid == this.INTERSECTED.uuid){
                             if(command==="select"){
                                 this.selectedObj = objs[i];
-                                objs[i].material.selectColor = {r:0.4,g:1,b:0.4};
-                                if(objs[i].material.realColor!==undefined){
-                                    objs[i].material.unselectColor = objs[i].material.realColor;
-                                } else {
-                                    objs[i].material.unselectColor = objs[i].material.color;
-                                }
+
+
                                 if(objs[i].material.length>1){
                                     for(let j=0; j<objs[i].material.length; j++){
-                                        objs[i].material[j].color = objs[i].material.selectColor;
+                                        objs[i].material[j].selectColor = {r:0.4,g:1,b:0.4};
+                                        objs[i].material[j].color = objs[i].material[j].selectColor;
+                                        if(objs[i].material[j].realColor!==undefined){
+                                            objs[i].material[j].unselectColor = objs[i].material[j].realColor;
+                                        } else {
+                                            objs[i].material[j].unselectColor = objs[i].material[j].color;
+                                        }
                                     }
                                 } else {
+                                    objs[i].material.selectColor = {r:0.4,g:1,b:0.4};
                                     objs[i].material.color = objs[i].material.selectColor;
+                                    if(objs[i].material.realColor!==undefined){
+                                        objs[i].material.unselectColor = objs[i].material.realColor;
+                                    } else {
+                                        objs[i].material.unselectColor = objs[i].material.color;
+                                    }
                                 }
                                 console.log("select");
                             }
@@ -81,9 +89,16 @@ class VR{
                     console.log("move");
                     break;
                 case "cancel":
-                    //this.selectedObj.material.color = this.selectedObj.material.realColor;
                     this.selectedObj.material.selectColor = undefined;
-                    this.selectedObj.material.color = this.selectedObj.material.unselectColor;
+                    if(this.selectedObj.material.length>1) {
+                        for (let i = 0; i < this.selectedObj.material.length; i++) {
+                            this.selectedObj.material[i].color = this.selectedObj.material[i].unselectColor;
+                        }
+                    } else {
+                        this.selectedObj.material.color = this.selectedObj.material.unselectColor;
+                    }
+
+
                     this.selectedObj = null;
                     console.log("cancel");
                     break;
@@ -104,8 +119,12 @@ class VR{
                                 this.selectedObj.position.x = intersect2.position.x;
                                 this.selectedObj.position.z = intersect2.position.z;
                                 for (let i = 0; i < objs.length; i++) {
-                                    if (objs[i].uuid == this.INTERSECTED.uuid) {
-                                        this.group.remove(intersect2);
+                                    if (objs[i].uuid === intersect2.uuid) {
+                                        if(intersect2.uuid !== this.selectedObj.uuid)
+                                        {
+                                            this.group.remove(intersect2);
+                                        }
+
                                     }
                                 }
                             }
